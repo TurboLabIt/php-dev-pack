@@ -1,0 +1,99 @@
+### webdev-gitignore by https://github.com/ZaneCEO/webdev-gitignore/ ###
+########################################################################
+#
+# curl -o .gitignore https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+
+# IDEs #
+########
+.idea
+.settings
+nbproject
+.buildpath
+.project
+*.code-workspace
+.vscode
+.run
+
+
+# Logs #
+########
+*.log
+
+
+# SVN #
+#######
+.svn
+
+# composer #
+############
+composer.lock
+/vendor/
+website/www/vendor/
+
+
+# OS generated files #
+######################
+__MACOSX
+*.DS_Store*
+._*
+.Spotlight-V100
+.Trash*
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+
+# Links  #
+##########
+*.lnk
+
+# Let's Encrypt #
+#################
+.well-known/
+
+# Node.js #
+###########
+node_modules/
+npm-debug.log
+package-lock.json
+.sass-cache/
+
+# Bower #
+#########
+bower_components/
+
+
+# Patches #
+###########
+*.rej
+
+
+## Static files
+/resources/revision.txt
+/resources/static_files/*
+
+
+##
+/public/autodeploy.php
+/wordpress/
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/src/.preload.php
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+
+## Sitemap
+/public/sitemap/
+/public/sitemap_new/

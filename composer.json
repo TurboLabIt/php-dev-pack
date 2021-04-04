@@ -1,0 +1,29 @@
+{
+    "name": "turbolabit/tli-base-bundle",
+    "description": "A collection of reusable Symfony components by TurboLab.it",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zane",
+            "email": "info@turbolab.it"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TurboLabIt\\TLIBaseBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TurboLabIt\\TLIBaseBundle\\tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/phpunit-bridge": "^5.2"
+    }
+}
