@@ -6,8 +6,8 @@
 
     <services>
         <!-- EntityManagerOptions -->
-        <service id="turbo_lab_it_tlibase.service.entity_manager_options" class="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" />
-        <service id="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" alias="turbo_lab_it_tlibase.service.entity_manager_options" />
+        <service id="turbo_lab_it_tlibase.service.entity_manager_options" class="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" public="true" />
+        <service id="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" alias="turbo_lab_it_tlibase.service.entity_manager_options" public="false" />
     </services>
 
 </container>
