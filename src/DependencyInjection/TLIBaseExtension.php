@@ -1,12 +1,13 @@
 <?php
 namespace TurboLabIt\TLIBaseBundle\DependencyInjection;
 
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 
-class TLIBaseBundleExtension extends Extension
+class TLIBaseExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
