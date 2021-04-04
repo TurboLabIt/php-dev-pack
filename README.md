@@ -81,7 +81,9 @@ class DummyEntity
 }
 ````
 
-Need some fields to be unique?
+### 1️⃣ Unique
+
+Need some //ableEntity to be unique?
 
 ````php
 /**
@@ -93,6 +95,33 @@ class DummyEntity
     ...
 }
 ````
+
+### 🛑 Idable::setId()
+
+The `Idable` Traits provides an autoincrement `id` field. This is the way.
+
+If you need to manually set the `id` on a new entity (i.e.: because you're importing data), you can also use the provided `setId()` method.
+
+But this won't work automatically. Before `setId()` can actually work, you have to manually disable the autoincrement on the EntityManager:
+
+````php
+public function __construct(EntityManagerInterface $em, EntityManagerOptions $emOptions)
+{
+    $this->em = $em;
+    $this->emOptions = $emOptions;
+}
+
+
+protected function disableAutoincrement()
+{
+    $this->emOptions->disableAutoincrement($this->em, [
+        Article::class, File::class, Image::class, Tag::class
+    ]);
+}
+````
+
+Then just call `disableAutoincrement()` and you're ready to `setId()` at will - yes, the `Auto Increment` metadata on the tables will rise on its own.
+
 
 ## ➕ Trait AtomicFieldIncrease
 
