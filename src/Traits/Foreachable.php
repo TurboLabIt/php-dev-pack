@@ -1,4 +1,7 @@
 <?php
+/**
+ * @see https://github.com/TurboLabIt/TLIBaseBundle#-trait-foreachable
+ */
 namespace TurboLabIt\TLIBaseBundle\Traits;
 
 
@@ -16,11 +19,10 @@ trait Foreachable
 
     public function current()
     {
-        $key    = $this->getRealForeachablePosition();
-
+        $key = $this->getRealForeachablePosition();
         if($key === false) {
 
-            return false;
+            return null;
         }
 
         return $this->arrData[$key];
@@ -41,7 +43,7 @@ trait Foreachable
 
     public function valid()
     {
-        $key    = $this->getRealForeachablePosition();
+        $key = $this->getRealForeachablePosition();
         return $key !== false;
     }
 
@@ -54,9 +56,9 @@ trait Foreachable
 
     public function first()
     {
-        if( $this->arrData == []) {
+        if( $this->arrData == [] ) {
 
-            return false;
+            return null;
         }
 
         $firstKey = array_keys($this->arrData)[0];
@@ -66,14 +68,15 @@ trait Foreachable
 
     public function last()
     {
-        if( $this->arrData == []) {
+        if( $this->arrData == [] ) {
 
-            return false;
+            return null;
         }
 
         $lastKey = array_reverse(array_keys($this->arrData))[0];
         return $this->arrData[$lastKey];
     }
+
 
     public function get($key)
     {
