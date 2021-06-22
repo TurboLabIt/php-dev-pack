@@ -62,4 +62,27 @@ class BaseTest extends KernelTestCase
                 ->getQuery()
                 ->getOneOrNullResult();
     }
+    
+    
+    protected function countRecord($entityName)
+    {
+        return
+            $this->entityManager->getRepository($entityName)
+                ->createQueryBuilder('t')
+            ->select('COUNT(1)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    
+    
+    protected function getLastRecord($entityName)
+    {
+        return
+            $this->entityManager->getRepository($entityName)
+                ->createQueryBuilder('t')
+                    ->orderBy('id', 'DESC')
+                    ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+    }
 }
