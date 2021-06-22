@@ -13,15 +13,19 @@ class BaseTest extends WebTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     protected $entityManager;
+    
+    /**
+     * @var Symfony\Bundle\FrameworkBundle\KernelBrowser
+     */
+    protected $httpClient
 
 
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+        $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+        $this->httpClient    = $kernel->getContainer()->get('test.client');
     }
 
     
@@ -86,5 +90,12 @@ class BaseTest extends WebTestCase
                     ->setMaxResults(1)
                 ->getQuery()
                 ->getOneOrNullResult();
+    }
+    
+    
+    protected function runHttpRequest($url, $method = 'GET', array $server = [])
+    {
+        $this->httpClient->setServerParameters($server);
+        return $this->httpClient->request($metod, $url);
     }
 }
