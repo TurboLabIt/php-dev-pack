@@ -1,7 +1,7 @@
 <?php
 namespace TurboLabIt\TLIBaseBundle\Test;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 
 class BaseTest extends WebTestCase
