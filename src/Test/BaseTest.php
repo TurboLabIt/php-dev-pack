@@ -22,7 +22,7 @@ class BaseTest extends WebTestCase
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
-        $this->httpClient    = self::getClient($kernel->getContainer()->get('test.client'));
+        $this->httpClient    = $kernel->getContainer()->get('test.client');
     }
 
     
