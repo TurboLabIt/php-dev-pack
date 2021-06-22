@@ -15,6 +15,8 @@ abstract class BaseFixture extends Fixture
 
     /** @var Generator */
     protected $faker;
+    
+    protected array $arrGeneratedCodes = [];
 
     abstract protected function loadData(ObjectManager $manager);
 
@@ -39,5 +41,19 @@ abstract class BaseFixture extends Fixture
         }
 
         $this->manager->flush();
+    }
+    
+    
+    protected function generateUniqueCode($pattern = '?##??##?')
+    {
+        do {
+
+            $code = $this->faker->bothify($pattern);
+
+        } while( in_array($code, $this->arrCodes));
+
+        $this->arrCodes[] = $code;
+        
+        return $code;
     }
 }
