@@ -50,9 +50,9 @@ abstract class BaseFixture extends Fixture
 
             $code = $this->faker->bothify($pattern);
 
-        } while( in_array($code, $this->arrCodes));
+        } while( in_array($code, $this->arrGeneratedCodes));
 
-        $this->arrCodes[] = $code;
+        $this->arrGeneratedCodes[] = $code;
         
         return $code;
     }
