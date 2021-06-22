@@ -48,7 +48,7 @@ class BaseTest extends KernelTestCase
     }
 
 
-    protected function getRandomRecord($entityName == null)
+    protected function getRandomRecord($entityName = null)
     {
         $entityName = $entityName ?: self::$entityName;
         
@@ -62,7 +62,7 @@ class BaseTest extends KernelTestCase
     }
     
     
-    protected function countRecord($entityName  = null)
+    protected function countRecord($entityName = null)
     {
         $entityName = $entityName ?: self::$entityName;
         
