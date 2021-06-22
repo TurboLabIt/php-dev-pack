@@ -32,7 +32,7 @@ class BaseTest extends KernelTestCase
         $this->entityManager = null;
     }
 
-    abstract public function testInstance(): void
+    public function testInstance(): void
     {
         $instance = $this->getService();
         $this->assertInstanceOf(self::$className, $instance);
