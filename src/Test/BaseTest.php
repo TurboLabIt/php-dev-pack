@@ -4,7 +4,7 @@ namespace TurboLabIt\TLIBaseBundle\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
-class BaseTest extends KernelTestCase
+class BaseTest extends WebTestCase
 {
     protected static $entityName;
     protected static $serviceName;
