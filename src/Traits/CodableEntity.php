@@ -9,7 +9,7 @@ trait CodableEntity
      */
     private $code;
     
-    protected bool autoCapitalize = true;
+    protected bool $autoCapitalize = true;
     
     public function getCode(): ?string
     {
