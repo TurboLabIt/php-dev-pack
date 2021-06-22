@@ -15,9 +15,9 @@ class BaseTest extends WebTestCase
     protected $entityManager;
     
     /**
-     * @var Symfony\Bundle\FrameworkBundle\KernelBrowser
+     * @var \Symfony\Bundle\FrameworkBundle\KernelBrowser
      */
-    protected $httpClient
+    protected $httpClient;
 
 
     protected function setUp(): void
