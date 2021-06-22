@@ -82,7 +82,7 @@ class BaseTest extends KernelTestCase
         return
             $this->entityManager->getRepository($entityName)
                 ->createQueryBuilder('t')
-                    ->orderBy('id', 'DESC')
+                    ->orderBy('t.id', 'DESC')
                     ->setMaxResults(1)
                 ->getQuery()
                 ->getOneOrNullResult();
