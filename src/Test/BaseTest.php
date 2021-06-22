@@ -96,6 +96,6 @@ class BaseTest extends WebTestCase
     protected function runHttpRequest($url, $method = 'GET', array $server = [])
     {
         $this->httpClient->setServerParameters($server);
-        return $this->httpClient->request($metod, $url);
+        return $this->httpClient->request($method, $url);
     }
 }
