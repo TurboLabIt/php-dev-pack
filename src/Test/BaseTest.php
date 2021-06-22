@@ -38,19 +38,19 @@ class BaseTest extends KernelTestCase
     public function testInstance(): void
     {
         $instance = $this->getService();
-        $this->assertInstanceOf(self::$serviceName, $instance);
+        $this->assertInstanceOf(static::$serviceName, $instance);
     }
 
 
     protected function getService()
     {
-        return self::getContainer()->get(self::$serviceName);
+        return static::getContainer()->get(static::$serviceName);
     }
 
 
     protected function getRandomRecord($entityName = null)
     {
-        $entityName = $entityName ?: self::$entityName;
+        $entityName = $entityName ?: static::$entityName;
         
         return
             $this->entityManager->getRepository($entityName)
@@ -64,7 +64,7 @@ class BaseTest extends KernelTestCase
     
     protected function countRecord($entityName = null)
     {
-        $entityName = $entityName ?: self::$entityName;
+        $entityName = $entityName ?: static::$entityName;
         
         return
             $this->entityManager->getRepository($entityName)
@@ -77,7 +77,7 @@ class BaseTest extends KernelTestCase
     
     protected function getLastRecord($entityName = null)
     {
-        $entityName = $entityName ?: self::$entityName;
+        $entityName = $entityName ?: static::$entityName;
         
         return
             $this->entityManager->getRepository($entityName)
