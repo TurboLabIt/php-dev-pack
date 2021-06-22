@@ -14,9 +14,6 @@ class BaseTest extends WebTestCase
      */
     protected $entityManager;
     
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\KernelBrowser
-     */
     protected $httpClient;
 
 
@@ -25,7 +22,7 @@ class BaseTest extends WebTestCase
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
-        $this->httpClient    = $kernel->getContainer()->get('test.client');
+        $this->httpClient    = self::getClient($kernel->getContainer()->get('test.client'));
     }
 
     
