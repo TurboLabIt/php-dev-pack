@@ -1,5 +1,5 @@
 <?php
-namespace App\Service;
+namespace TurboLabIt\TLIBaseBundle\Service;
 
 use App\Exception\EncryptionException;
 use App\Exception\UnserializationException;
