@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class BaseTest extends KernelTestCase
 {
-    protected static $className;
+    protected static $entityName;
+    protected static $serviceName;
   
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -23,6 +24,7 @@ class BaseTest extends KernelTestCase
             ->getManager();
     }
 
+    
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -32,28 +34,24 @@ class BaseTest extends KernelTestCase
         $this->entityManager = null;
     }
 
+    
     public function testInstance(): void
     {
         $instance = $this->getService();
-        $this->assertInstanceOf(self::$className, $instance);
+        $this->assertInstanceOf(self::$serviceName, $instance);
     }
 
 
     protected function getService()
     {
-        return self::getContainer()->get(self::$className);
+        return self::getContainer()->get(self::$serviceName);
     }
 
 
-    /*
-    protected function getRandomStation()
+    protected function getRandomRecord($entityName == null)
     {
-        return $this->getRandomRecord(Station::class);
-    }
-    */
-
-    protected function getRandomRecord($entityName)
-    {
+        $entityName = $entityName ?: self::$entityName;
+        
         return
             $this->entityManager->getRepository($entityName)
                 ->createQueryBuilder('t')
@@ -64,8 +62,10 @@ class BaseTest extends KernelTestCase
     }
     
     
-    protected function countRecord($entityName)
+    protected function countRecord($entityName  = null)
     {
+        $entityName = $entityName ?: self::$entityName;
+        
         return
             $this->entityManager->getRepository($entityName)
                 ->createQueryBuilder('t')
@@ -75,8 +75,10 @@ class BaseTest extends KernelTestCase
     }
     
     
-    protected function getLastRecord($entityName)
+    protected function getLastRecord($entityName = null)
     {
+        $entityName = $entityName ?: self::$entityName;
+        
         return
             $this->entityManager->getRepository($entityName)
                 ->createQueryBuilder('t')
