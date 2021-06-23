@@ -8,6 +8,7 @@ class BaseTest extends WebTestCase
 {
     protected static $entityName;
     protected static $serviceName;
+    protected static $webDomain = 'localhost';
   
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -19,10 +20,8 @@ class BaseTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $kernel = self::bootKernel();
-
-        $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
-        $this->httpClient    = $kernel->getContainer()->get('test.client');
+        $this->httpClient    = static::createClient();
+        $this->entityManager = static::$kernel->getContainer()->get('doctrine')->getManager();
     }
 
     
@@ -92,7 +91,23 @@ class BaseTest extends WebTestCase
     
     protected function runHttpRequest($url, $method = 'GET', array $server = [])
     {
-        $this->httpClient->setServerParameters($server);
+        $this->httpClient->setServerParameters(array_merge([
+            "HTTP_HOST" => static::$webDomain
+        ], $server));
+
         return $this->httpClient->request($method, $url);
+    }
+
+
+    protected function runHttpRequestJsonReponse($url, $method = 'GET', array $server = [])
+    {
+        $this->httpClient->setServerParameters(array_merge([
+            "HTTP_HOST" => static::$webDomain
+        ], $server));
+
+        $this->httpClient->request($method, $url);
+        $response = $this->httpClient->getResponse();
+
+        return json_decode($response->getContent(), true);
     }
 }
