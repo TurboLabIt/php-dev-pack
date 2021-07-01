@@ -9,7 +9,13 @@ class TrimmerExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('trimmer', [TrimmerExtensionRuntime::class, 'trim']),
+            new TwigFilter('trimmer', [$this, 'trim']),
         ];
+    }
+
+
+    public function trim(string $value): string
+    {
+        return trim($value);
     }
 }
