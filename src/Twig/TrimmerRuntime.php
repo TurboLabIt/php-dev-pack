@@ -4,7 +4,7 @@ namespace TurboLabIt\TLIBaseBundle\Twig;
 use Twig\Extension\RuntimeExtensionInterface;
 
 
-class TrimmerExtensionRuntime implements RuntimeExtensionInterface
+class TrimmerRuntime implements RuntimeExtensionInterface
 {
     public function trim(string $value): string
     {
