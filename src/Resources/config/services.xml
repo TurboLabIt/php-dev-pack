@@ -12,7 +12,7 @@
         <service id="TurboLabIt\TLIBaseBundle\Twig\TrimmerExtension">
             <tag name="twig.extension"/>
         </service>
-        <service id="TurboLabIt\TLIBaseBundle\Twig\TrimmerExtensionRuntime">
+        <service id="TurboLabIt\TLIBaseBundle\Twig\TrimmerRuntime">
             <tag name="twig.runtime"/>
         </service>
     </services>
