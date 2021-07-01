@@ -10,7 +10,7 @@ class TrimmerExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('trimmer', [TrimmerExtensionRuntime::class, 'trim']),
+            new TwigFilter('trimmer', [TrimmerRuntime::class, 'trim']),
         ];
     }
 }
