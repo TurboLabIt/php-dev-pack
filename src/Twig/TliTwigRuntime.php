@@ -14,7 +14,7 @@ class TliTwigRuntime implements RuntimeExtensionInterface
     
     public function friendlyNum(string|float|int $input): string
     {
-        $locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?? 'it_IT';
+        $locale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?? 'it_IT';
         return (new \NumberFormatter($locale, \NumberFormatter::DECIMAL))->format($input);
     }
     
