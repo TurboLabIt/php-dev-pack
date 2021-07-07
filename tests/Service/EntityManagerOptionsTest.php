@@ -3,7 +3,6 @@ namespace TurboLabIt\TLIBaseBundle\tests\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions;
 use TurboLabIt\TLIBaseBundle\tests\TLIBaseTestingKernel;
 

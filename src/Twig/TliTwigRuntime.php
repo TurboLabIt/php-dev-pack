@@ -34,7 +34,7 @@ class TliTwigRuntime implements RuntimeExtensionInterface
             return $date->format('d/m/Y') . ' alle ' . $date->format('H:i');
         }
 
-        if( $secDiff > $oneDayInSec ) {
+        if( $secDiff >= $oneDayInSec ) {
             return 'ieri alle ' . $date->format('H:i');
         }
 
@@ -45,7 +45,7 @@ class TliTwigRuntime implements RuntimeExtensionInterface
             return $num . ' ' . $word . ' fa';
         }
 
-        $stopNow = 60 * 15;
+        $stopNow = 60 * 30;
         if( $secDiff >= $stopNow ) {
             $num    = (int)floor($secDiff / 60);
             return $num . ' minuti fa';

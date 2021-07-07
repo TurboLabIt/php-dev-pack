@@ -6,13 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ViewableEntityTest extends TestCase
 {
-    protected $sampleViewNumber;
-
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        $this->sampleViewNumber = time();
-    }
+    protected $sampleViewNumber = 1234;
 
 
     public function testSet()
