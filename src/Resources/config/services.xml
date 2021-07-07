@@ -8,6 +8,13 @@
         <!-- EntityManagerOptions -->
         <service id="turbo_lab_it_tlibase.service.entity_manager_options" class="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" public="true" />
         <service id="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" alias="turbo_lab_it_tlibase.service.entity_manager_options" public="false" />
+               
+        <service id="TurboLabIt\TLIBaseBundle\Twig\TliTwigExtension">
+            <tag name="twig.extension"/>
+        </service>
+        <service id="TurboLabIt\TLIBaseBundle\Twig\TliTwigRuntime">
+            <tag name="twig.runtime"/>
+        </service>
     </services>
 
 </container>

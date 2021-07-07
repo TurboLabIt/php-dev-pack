@@ -9,7 +9,7 @@ trait IdableEntity
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer", options={"unsigned":true})
      */
-    private $id;
+    protected $id;
 
     protected $acceptZero = false;
 

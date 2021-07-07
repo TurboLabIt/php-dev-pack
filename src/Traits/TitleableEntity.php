@@ -18,9 +18,16 @@ trait TitleableEntity
 
     public function getTitle(): ?string
     {
-        return
-            $this->clean($this->title);
+        return $this->clean($this->title);
     }
+    
+    public function getTitleAsHeadline()
+    {
+        $title = $this->getTitle();
+        $title = ucfirst($title);
+        return $title;
+    }
+    
 
     public function setTitle(string $title): self
     {
