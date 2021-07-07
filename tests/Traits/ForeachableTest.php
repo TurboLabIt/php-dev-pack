@@ -110,9 +110,7 @@ final class ForeachableTest extends TestCase
     {
         $collDummy = new CollectionDummy();
 
-        for($i = 1; $i < 3; $i++) {
-
-            $collDummy->next();
+        for($i = 0; $i < 3; $i++) {
 
             $dummyTitle     = $this->arrDummyData[$i]["title"];
             $dummyAbstract  = $this->arrDummyData[$i]["abstract"];
@@ -120,13 +118,15 @@ final class ForeachableTest extends TestCase
             $oneArticle = $collDummy->current();
             $this->assertEquals($oneArticle->getTitle(), $dummyTitle);
             $this->assertEquals($oneArticle->getAbstract(), $dummyAbstract);
+
+            $collDummy->next();
         }
 
         for($i = 1; $i < 5; $i++) {
 
             $collDummy->next();
             $oneArticle = $collDummy->current();
-            $this->assertFalse($oneArticle);
+            $this->assertNull($oneArticle);
         }
     }
 
