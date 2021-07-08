@@ -1,7 +1,7 @@
 <?php
 /**
  * !!! CAUTION!!! This class is auto-generated!
- * Build time: 2021-09-07 00:35:15 on zane-boraso
+ * Build time: 2021-09-07 00:47:33 on zane-boraso
  *
  * To upgrade it:
  * @see GenerateClass.php
@@ -19,22 +19,17 @@ class Stopwords
         $text = trim($text);
         foreach(self::LIST_IT as $stopword) {
 
-            $regex = '/\b' . $stopword . '\'\b/iu';
-            $textClean = preg_replace($regex, '', $text);
-
-            if( $textClean != $text) {
-                $breakPointMe = 1;
-            }
-
-            $text = $textClean;
-
             $regex = '/\b' . $stopword . '\b/iu';
             $textClean = preg_replace($regex, '', $text);
 
-            if( $textClean != $text) {
-                $breakPointMe = 1;
-            }
-
+/**
+ * !!! CAUTION!!! This class is auto-generated!
+ * Build time: 2021-09-07 00:47:33 on zane-boraso
+ *
+ * To upgrade it:
+ * @see GenerateClass.php
+ */
+            
             $text = $textClean;
         }
 

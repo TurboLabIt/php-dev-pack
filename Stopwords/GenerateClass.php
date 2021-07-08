@@ -54,7 +54,7 @@ $classContent = str_replace('/*## CAUTION-BANNER ##*/', $cautionBannerContent, $
 $classContent = str_replace('/*## LIST ##*/', $csvStopwords, $classContent);
 
 //
-$xdebugOrNull = $devMode ? '$breakPointMe = 1;' : null;
+$xdebugOrNull = $devMode ? 'if( $textClean != $text )' . PHP_EOL . "\t\t\t\t\$breakPointMe = 1;" . PHP_EOL : null;
 $classContent = str_replace('/*## XDEBUG_BREAK ##*/', $xdebugOrNull, $classContent);
 
 //

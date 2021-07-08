@@ -13,22 +13,11 @@ class Stopwords
         $text = trim($text);
         foreach(self::LIST_IT as $stopword) {
 
-            $regex = '/\b' . $stopword . '\'\b/iu';
-            $textClean = preg_replace($regex, '', $text);
-
-            if( $textClean != $text) {
-                /*## XDEBUG_BREAK ##*/
-            }
-
-            $text = $textClean;
-
             $regex = '/\b' . $stopword . '\b/iu';
             $textClean = preg_replace($regex, '', $text);
 
-            if( $textClean != $text) {
-                /*## XDEBUG_BREAK ##*/
-            }
-
+/*## CAUTION-BANNER ##*/
+            /*## XDEBUG_BREAK ##*/
             $text = $textClean;
         }
 
