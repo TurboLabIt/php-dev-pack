@@ -1,0 +1,7 @@
+/**
+ * !!! CAUTION!!! This class is auto-generated!
+ * Build time: ## BUILD TIME ##
+ *
+ * To upgrade it:
+ * @see GenerateClass.php
+ */
