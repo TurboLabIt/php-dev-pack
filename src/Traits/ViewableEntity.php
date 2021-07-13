@@ -14,7 +14,7 @@ trait ViewableEntity
         return $this->views;
     }
 
-    public function setViews(int|string $views): self
+    public function setViews(int|string $views)
     {
         $intViews = (int)$views;
         if( $intViews === 0 && $views != 0 ) {

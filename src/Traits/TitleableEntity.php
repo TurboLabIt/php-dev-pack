@@ -29,7 +29,7 @@ trait TitleableEntity
     }
     
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title)
     {
         $this->title = $this->clean($title);
         return $this;

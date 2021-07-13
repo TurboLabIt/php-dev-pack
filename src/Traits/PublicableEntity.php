@@ -19,7 +19,7 @@ trait PublicableEntity
         return !$this->isPublic();
     }
 
-    public function setPublic(bool|string|int $value = true): self
+    public function setPublic(bool|string|int $value = true)
     {
         if( is_string($value) && !in_array($value, ["0","1"]) ) {
 
@@ -30,7 +30,7 @@ trait PublicableEntity
         return $this;
     }
 
-    public function setPrivate(bool|string|int $value = true): self
+    public function setPrivate(bool|string|int $value = true)
     {
         $this->setPublic($value);
         $this->public = !$this->public;

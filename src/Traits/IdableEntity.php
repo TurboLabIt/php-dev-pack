@@ -18,7 +18,7 @@ trait IdableEntity
         return $this->id;
     }
 
-    public function setId(int|string $id): self
+    public function setId(int|string $id)
     {
         $intId = (int)$id;
         if( $intId === 0 && $id != 0 ) {
@@ -41,7 +41,7 @@ trait IdableEntity
         return $this;
     }
 
-    public function acceptZero(bool $bool = true): self
+    public function acceptZero(bool $bool = true)
     {
         $this->acceptZero = $bool;
         return $this;

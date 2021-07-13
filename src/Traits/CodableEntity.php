@@ -16,13 +16,13 @@ trait CodableEntity
         return $this->code;
     }
 
-    public function setCode(string $code): self
+    public function setCode(string $code)
     {    
         $this->code = $this->autoCapitalize ? mb_strtoupper($code) : $code;
         return $this;
     }
     
-    public function autoCapitalize(bool $bool = true): self
+    public function autoCapitalize(bool $bool = true)
     {
         $this->autoCapitalize = $bool;
         return $this;
