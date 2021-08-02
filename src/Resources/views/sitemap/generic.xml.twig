@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    {% for oneUrlData in urlData %}
+        <url>
+            <loc>{{ oneUrlData.url }}</loc>
+
+            {% if oneUrlData.lastMod is defined %}
+                <lastmod>{{ oneUrlData.lastMod }}</lastmod>
+            {% endif %}
+
+            {% if oneUrlData.changefreq is defined %}
+                <changefreq>{{ oneUrlData.changefreq }}</changefreq>
+            {% endif %}
+
+            {% if oneUrlData.priority is defined %}
+                <priority>{{ oneUrlData.priority }}</priority>
+            {% endif %}
+
+        </url>
+    {% endfor %}
+
+</urlset>
