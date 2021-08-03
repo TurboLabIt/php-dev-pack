@@ -1,77 +1,107 @@
 <?php
 namespace TurboLabIt\TLIBaseBundle\Service;
 
-use App\Exception\EncryptionException;
-use App\Exception\UnserializationException;
+use TurboLabIt\TLIBaseBundle\Exception\EncryptionException;
+
 
 class Encryptor
 {
-    protected $secretKey;
-    protected $cryptInitVector;
+    const KEY_HASHING_ALGO  = "sha512";
+    const ENCRYPT_ALGO      = "AES256";
+
+    protected string $secretKey;
+    protected int $iv_num_bytes;
 
     protected $specialCharMap = [
-
         "/"     => "__ssym1__",
         "\\"    => "__ssym2__",
     ];
 
-    public function __construct($secretKey, $cryptInitVector)
+
+    public function __construct($secretKey)
     {
-        $this->secretKey        = $secretKey;
-        $this->cryptInitVector  = $cryptInitVector;
+        $this->secretKey    = openssl_digest($secretKey, static::KEY_HASHING_ALGO, true);
+        $this->iv_num_bytes = openssl_cipher_iv_length(static::ENCRYPT_ALGO);
     }
+
 
     public function encrypt($data): string
     {
         $this->preventLeaks();
 
         if(empty($data)) {
-
             return '';
         }
 
-        $txtData    = is_array($data) || is_object($data) ? serialize($data) : $data;
-        $txtData    = openssl_encrypt($txtData, "AES256", $this->secretKey, 0, $this->cryptInitVector);
-        $txtData    = str_ireplace( array_keys($this->specialCharMap), $this->specialCharMap, $txtData);
-        return $txtData;
+        // Build an initialisation vector
+        $initVector = openssl_random_pseudo_bytes($this->iv_num_bytes, $isStrongCrypto);
+        if (!$isStrongCrypto) {
+            throw new EncryptionException("encrypt() failure: weak result");
+        }
+
+        $txtData = is_array($data) || is_object($data) ? serialize($data) : $data;
+        $encryptedString = openssl_encrypt($txtData, static::ENCRYPT_ALGO, $this->secretKey, OPENSSL_RAW_DATA, $initVector);
+
+        if($encryptedString === false) {
+            throw new EncryptionException("encrypt() failure: " . openssl_error_string());
+        }
+
+        // store the initvector with the encoded string
+        $encryptedString = $initVector . $encryptedString;
+
+        //
+        $base64EncryptedString = base64_encode($encryptedString);
+
+        // we cannot have / in URLs
+        $urlEncodedString = str_ireplace( array_keys($this->specialCharMap), $this->specialCharMap, $base64EncryptedString);
+
+        return $urlEncodedString;
     }
 
 
-    public function decrypt($data, $unserialize = true)
+    public function decrypt($encodedEncryptedString, bool $unserialize = true)
     {
         $this->preventLeaks();
 
-        if(empty($data)) {
-
-            return $data;
+        if(empty($encodedEncryptedString)) {
+            return $encodedEncryptedString;
         }
 
-        $data       = str_ireplace( $this->specialCharMap, array_keys($this->specialCharMap), $data);
-        $txtData    = @openssl_decrypt($data, "AES256", $this->secretKey, 0, $this->cryptInitVector);
-        if($txtData === false) {
+        // restore /
+        $encodedEncryptedString = str_ireplace( $this->specialCharMap, array_keys($this->specialCharMap), $encodedEncryptedString);
 
-            throw new EncryptionException();
+        $encryptedString = base64_decode($encodedEncryptedString);
+
+        // and do an integrity check on the size.
+        if (strlen($encryptedString) < $this->iv_num_bytes)  {
+            throw new EncryptionException('decrypt() failure: input is too short');
+        }
+
+        // Extract the initialisation vector and encrypted data
+        $initVector         = substr($encryptedString, 0, $this->iv_num_bytes);
+        $encryptedString    = substr($encryptedString, $this->iv_num_bytes);
+
+        $decryptedString = openssl_decrypt($encryptedString, static::ENCRYPT_ALGO, $this->secretKey, OPENSSL_RAW_DATA, $initVector);
+        if($decryptedString === false) {
+            throw new EncryptionException("decrypt() failure: " . openssl_error_string());
         }
 
         if(!$unserialize) {
-
-            return $data;
+            return $decryptedString;
         }
 
-        $txtData = @unserialize($txtData);
-        if($txtData === false) {
-
-            throw new UnserializationException();
+        $arrData = @unserialize($decryptedString);
+        if($arrData === false) {
+            throw new \Exception('decrypt() failure: unable to unserialize');
         }
 
-        return $txtData;
+        return $arrData;
     }
 
 
     protected function preventLeaks()
     {
-        if( empty($this->secretKey) || empty($this->cryptInitVector) ) {
-
+        if( empty($this->secretKey) || empty($this->iv_num_bytes) ) {
             throw new EncryptionException();
         }
     }

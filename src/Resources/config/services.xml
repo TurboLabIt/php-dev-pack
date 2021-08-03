@@ -9,7 +9,9 @@
         <service id="turbo_lab_it_tlibase.service.entity_manager_options" class="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" public="true" />
         <service id="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" alias="turbo_lab_it_tlibase.service.entity_manager_options" public="false" />
 
-        <service id="TurboLabIt\TLIBaseBundle\Service\Encryptor" autowire="true" />
+        <service id="TurboLabIt\TLIBaseBundle\Service\Encryptor" autowire="true">
+            <argument key="$secretKey">%env(APP_SECRET)%</argument>
+        </service>
 
         <!-- Mailer -->
         <service id="TurboLabIt\TLIBaseBundle\Service\Mailer" autowire="true">

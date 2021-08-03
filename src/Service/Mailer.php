@@ -58,7 +58,7 @@ class Mailer
     }
 
 
-    protected function sendStandardEmail(
+    public function sendStandardEmail(
         string $toAddress, string $toName, string $subjectUntagged,
         string $templateFilename, array $arrTemplateData,
         array $arrCc = [],
