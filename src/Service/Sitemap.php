@@ -12,7 +12,8 @@ class Sitemap
 {
     const FORMAT_GENERIC    = 'generic';
     const FORMAT_NEWS       = 'news';
-    const URL_MAX_PER_FILE  = 10;
+    const FORMAT_INDEX      = 'index';
+    const URL_MAX_PER_FILE  = 40000;
 
     protected ParameterBagInterface $parameterBag;
     protected Environment $twig;
@@ -81,7 +82,7 @@ class Sitemap
             $arrFiles[] = $this->sitemapBaseUrl . basename($filePath);
         }
 
-        $indexFile = $this->writeXmlDataToFile('index', ["Urls" => $arrFiles], 'sitemap.xml');
+        $indexFile = $this->writeXmlDataToFile(static::FORMAT_INDEX, ["Urls" => $arrFiles], 'sitemap.xml');
         $this->indexFileUrl = $this->sitemapBaseUrl . basename($indexFile);
         return $this->indexFileUrl;
     }
