@@ -14,7 +14,7 @@ class Sitemap
     const FORMAT_NEWS       = 'news';
     const URL_MAX_PER_FILE  = 10;
 
-    protected string $outputPath;
+    protected ParameterBagInterface $parameterBag;
     protected Environment $twig;
     protected Xml $xmlFileType;
     protected Filesystem $filesystem;
@@ -29,9 +29,7 @@ class Sitemap
 
     public function __construct(ParameterBagInterface $parameterBag, Environment $twig, Xml $xmlFileType, Filesystem $filesystem, HttpClientInterface $httpClient)
     {
-        $this->outputPath   = $parameterBag->get('kernel.project_dir') .
-                                DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR;
-
+        $this->parameterBag = $parameterBag;
         $this->twig         = $twig;
         $this->xmlFileType  = $xmlFileType;
         $this->filesystem   = $filesystem;
@@ -87,6 +85,19 @@ class Sitemap
         $indexFile = $this->writeXmlDataToFile('index', ["Urls" => $arrFiles], 'sitemap.xml');
         $this->indexFileUrl = $this->sitemapBaseUrl . basename($indexFile);
         return $this->indexFileUrl;
+    }
+
+
+    public function moveTo($relativePath)
+    {
+        $source = $this->createDirectoryTemporary();
+        $dest   = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . $relativePath;
+
+        if( $this->filesystem->exists($dest) ) {
+            $this->filesystem->remove($dest);
+        }
+
+        $this->filesystem->rename($source, $dest);
     }
 
 
@@ -173,18 +184,21 @@ class Sitemap
 
     protected function createDirectoryTemporary(bool $removeIfExists = false): string
     {
-        if( $removeIfExists && $this->filesystem->exists($this->outputPath) ) {
+        $outputPath = $this->parameterBag->get('kernel.project_dir') .
+                        DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR;
 
-            $this->filesystem->remove($this->outputPath);
+        if( $removeIfExists && $this->filesystem->exists($outputPath) ) {
 
-        } elseif( !$removeIfExists && $this->filesystem->exists($this->outputPath) ) {
+            $this->filesystem->remove($outputPath);
 
-            return $this->outputPath;
+        } elseif( !$removeIfExists && $this->filesystem->exists($outputPath) ) {
+
+            return $outputPath;
         }
 
-        $this->filesystem->mkdir($this->outputPath);
+        $this->filesystem->mkdir($outputPath);
 
-        return $this->outputPath;
+        return $outputPath;
     }
 
 
