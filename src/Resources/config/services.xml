@@ -10,8 +10,34 @@
         <service id="TurboLabIt\TLIBaseBundle\Service\EntityManagerOptions" alias="turbo_lab_it_tlibase.service.entity_manager_options" public="false" />
 
         <service id="TurboLabIt\TLIBaseBundle\Service\Encryptor" autowire="true" />
-        <service id="TurboLabIt\TLIBaseBundle\Service\Stopwords" autowire="true" />
+
+        <!-- Mailer -->
+        <service id="TurboLabIt\TLIBaseBundle\Service\Mailer" autowire="true">
+            <argument key="$arrMailerConfig" type="collection">
+
+                <!-- default "From" -->
+                <argument key="from" type="collection">
+                    <argument key="name">%env(MAIL_SENDER_NAME)%</argument>
+                    <argument key="address">%env(MAIL_SENDER_ADDRESS)%</argument>
+                </argument>
+
+                <!-- default "To" -->
+                <argument key="to" type="collection">
+                    <argument key="name">%env(MAIL_TO_NAME)%</argument>
+                    <argument key="address">%env(MAIL_TO_ADDRESS)%</argument>
+                </argument>
+
+                <!-- Subject -->
+                <argument key="subject" type="collection">
+                    <argument key="tag">%env(MAIL_SUBJECT_TAG)%</argument>
+                </argument>
+
+            </argument>
+        </service>
+
         <service id="TurboLabIt\TLIBaseBundle\Service\Sitemap" autowire="true" />
+        <service id="TurboLabIt\TLIBaseBundle\Service\Stopwords" autowire="true" />
+
         <service id="TurboLabIt\TLIBaseBundle\Service\FileType\Xml" autowire="true" />
                
         <service id="TurboLabIt\TLIBaseBundle\Twig\TliTwigExtension">
