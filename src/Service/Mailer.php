@@ -52,7 +52,7 @@ class Mailer
         return $this->sendStandardEmail(
             "mr.recipient@test.com", "Mr. Recipient",
             "This is a test",
-            '@TLIBase/email/test.xml.twig', ["now" => new \DateTime()],
+            '@TLIBase/email/test.html.twig', ["now" => new \DateTime()],
             ["mr.cc@test.com"]
         );
     }
