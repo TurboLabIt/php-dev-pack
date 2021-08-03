@@ -90,7 +90,7 @@ class Sitemap
 
     public function moveTo($relativePath)
     {
-        $source = $this->createDirectoryTemporary();
+        $source = $this->getDirectoryTemporaryPath();
         $dest   = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . $relativePath;
 
         if( $this->filesystem->exists($dest) ) {
@@ -182,10 +182,17 @@ class Sitemap
     }
 
 
+    protected function getDirectoryTemporaryPath(): string
+    {
+        return
+            $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .
+                'var' . DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR;
+    }
+
+
     protected function createDirectoryTemporary(bool $removeIfExists = false): string
     {
-        $outputPath = $this->parameterBag->get('kernel.project_dir') .
-                        DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR;
+        $outputPath = $this->getDirectoryTemporaryPath();
 
         if( $removeIfExists && $this->filesystem->exists($outputPath) ) {
 
