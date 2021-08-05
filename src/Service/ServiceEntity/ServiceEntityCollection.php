@@ -26,24 +26,26 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
     public function loadByIds(array $arrIds)
     {
         $arrEntities = $this->repository->getByIds($arrIds);
-        return $this->loadFromEntities($arrEntities);
+        return $this->loadFromEntities($arrEntities, true);
     }
 
 
     public function loadAll()
     {
-        $arrEntities = $this->repository->getAll();
-        return $this->loadFromEntities($arrEntities);
+        $arrEntities = $this->repository->loadWholeTable()->getWholeTable();
+        return $this->loadFromEntities($arrEntities, true);
     }
 
 
-    public function loadFromEntities($entities)
+    public function loadFromEntities(\Traversable $entities, bool $useCurrentKeys = false)
     {
         $this->arrData = [];
-        foreach($entities as $entity) {
+        foreach($entities as $key => $entity) {
 
-            $id = (string)$entity->getId();
-            $this->arrData[$id] =
+            $idx = $useCurrentKeys ? $key : $entity->getId();
+            $idx = (string)$idx;
+
+            $this->arrData[$idx] =
                 $this->createService()
                     ->setEntity($entity);
         }
@@ -55,9 +57,9 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
     public function toCsv($separator = ', ', $method = 'getTitle'): string
     {
         $arrData = [];
-        foreach($this->arrData as $oneItem) {
+        foreach($this->arrData as $id => $oneService) {
 
-            $arrData[] = $oneItem->$method();
+            $arrData[] = $oneService->$method();
         }
 
         return implode($separator, $arrData);
@@ -71,17 +73,29 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
             return false;
         }
 
-        foreach($this->arrData as $item) {
+        foreach($this->arrData as $id => $oneService) {
 
             if(
-                get_class($item) == get_class($object) &&
-                $item->getId()   == $object->getId()
+                get_class($oneService) == get_class($object) &&
+                $oneService->getId()   == $object->getId()
             ) {
                 return true;
             }
         }
 
         return false;
+    }
+
+
+    public function getAsArray(): array
+    {
+        $arrDataAsArray = [];
+        foreach($this->arrData as $id => $oneService) {
+
+            $arrDataAsArray[$id] = $oneService->getAsArray();
+        }
+
+        return $arrDataAsArray;
     }
 
 
