@@ -60,7 +60,7 @@ abstract class RepositoryBaseCompositeKey extends RepositoryBase
         $idx = $this->joinValues(...$arrIds);
 
         return
-            in_array($idx, $this->arrWholeTableCompositeIndexFastLookup)
+            array_key_exists($idx, $this->arrWholeTableCompositeIndexFastLookup)
                 ? $this->arrWholeTableCompositeIndexFastLookup[$idx]
                 : null
             ;
