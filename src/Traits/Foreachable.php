@@ -14,6 +14,7 @@ trait Foreachable
     public function rewind()
     {
         $this->position = 0;
+        return $this;
     }
 
 
@@ -38,6 +39,7 @@ trait Foreachable
     public function next()
     {
         ++$this->position;
+        return $this;
     }
 
 
@@ -93,12 +95,33 @@ trait Foreachable
     {
         $this->arrData = [];
         $this->rewind();
+        return $this;
     }
 
 
     public function getAll()
     {
         return $this->arrData;
+    }
+
+
+    public function slice($num, $offset = 0, bool $applyToSource = false): array
+    {
+        /*if(
+            empty($this->arrData) || count($this->arrData) == 0 ||
+            count($this->arrData) < $offset
+        ) {
+            return [];
+        }*/
+
+        $arrSliced = array_slice($this->arrData, $offset, $num, true);
+
+        if($applyToSource) {
+
+            $this->arrData = $arrSliced;
+        }
+
+        return $arrSliced;
     }
 
 

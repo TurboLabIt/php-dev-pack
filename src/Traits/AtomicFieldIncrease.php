@@ -4,10 +4,10 @@ namespace TurboLabIt\TLIBaseBundle\Traits;
 
 trait AtomicFieldIncrease
 {
-    protected function atomicFieldIncrease(string $fieldToIncrease, int $entityId, int $incrementBy = 1)
+    public function atomicFieldIncrease(string $fieldToIncrease, int $entityId, int $incrementBy = 1)
     {
-        $em = $this->getEntityManager();
-        $db = $em->getConnection();
+        $em         = $this->getEntityManager();
+        $db         = $em->getConnection();
         $tableName  = $em->getClassMetadata($this->getClassName())->getTableName();
 
         $fieldToIncrease = preg_replace("/['\"`]/is", '', $fieldToIncrease);
@@ -22,7 +22,7 @@ trait AtomicFieldIncrease
         ;
 
         $stmt = $db->prepare($sql);
-        $stmt->execute();
+        $stmt->executeStatement();
 
         return $this;
     }
