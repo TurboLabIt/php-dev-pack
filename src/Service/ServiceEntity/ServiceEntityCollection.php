@@ -37,7 +37,7 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
     }
 
 
-    public function loadFromEntities(\Traversable $entities, bool $useCurrentKeys = false)
+    public function loadFromEntities($entities, bool $useCurrentKeys = false)
     {
         $this->arrData = [];
         foreach($entities as $key => $entity) {
