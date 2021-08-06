@@ -45,6 +45,8 @@ abstract class ServiceEntity
 
     public function loadByFieldsValues(array $arrFieldsValues)
     {
+        $this->reset();
+
         $entity = $this->repository->findOneBy($arrFieldsValues);
         if (empty($entity) ) {
 
@@ -68,6 +70,7 @@ abstract class ServiceEntity
 
     public function fakeLoadById(int $id)
     {
+        $this->reset();
         $this->entity->setId($id);
         return $this;
     }
@@ -189,6 +192,17 @@ abstract class ServiceEntity
 
             $this->em->flush();
         }
+
+        return $this;
+    }
+
+
+    public function reset(): static
+    {
+        $entityClassName    = get_class($this->entity);
+        $this->entity       = new $entityClassName();
+        $this->arrData      = [];
+        $this->isSelected   = false;
 
         return $this;
     }
