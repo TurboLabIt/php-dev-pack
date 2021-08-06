@@ -25,7 +25,7 @@ abstract class PaginatorBase
     }
 
 
-    protected function build(string $routeName, array $arrRouteParam = [], $routeWithNumName = null, $arrRouteWithNumParam = null): static
+    protected function build(string $routeName, array $arrRouteParam = [], $routeWithNumName = null, $arrRouteWithNumParam = null): self
     {
         $routeWithNumName = $routeWithNumName ?? $routeName;
         $arrRouteWithNumParam = $arrRouteWithNumParam ?? $arrRouteParam;
@@ -54,7 +54,7 @@ abstract class PaginatorBase
     }
 
 
-    public function setCurrentPageNum(int $page): static
+    public function setCurrentPageNum(int $page): self
     {
         $this->currentPageNum = $page;
         return $this;
@@ -67,14 +67,14 @@ abstract class PaginatorBase
     }
 
 
-    public function setTotalElementsNum(int $num): static
+    public function setTotalElementsNum(int $num): self
     {
         $this->totalElementsNum = $num;
         return $this;
     }
 
 
-    public function setElementsPerPageNum(int $num): static
+    public function setElementsPerPageNum(int $num): self
     {
         $this->elementsPerPageNum = $num;
         return $this;

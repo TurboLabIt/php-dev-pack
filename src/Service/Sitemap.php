@@ -40,7 +40,7 @@ class Sitemap
     }
 
 
-    public function setBaseUrl(string $sitemapBaseUrl): static
+    public function setBaseUrl(string $sitemapBaseUrl): self
     {
         $sitemapBaseUrl .= str_ends_with($sitemapBaseUrl, '/') ? '' : '/';
         $this->sitemapBaseUrl = $sitemapBaseUrl;
@@ -48,7 +48,7 @@ class Sitemap
     }
 
 
-    public function addEntry(array $arrOneUrl, string $fileNameNoExt): static
+    public function addEntry(array $arrOneUrl, string $fileNameNoExt): self
     {
         $this->arrUrlsByFileName[$fileNameNoExt][] = $arrOneUrl;
         return $this;
