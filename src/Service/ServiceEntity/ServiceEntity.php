@@ -5,6 +5,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use TurboLabIt\TLIBaseBundle\Exception\EntityLoadNotFoundException;
+use TurboLabIt\TLIBaseBundle\Exception\UndefinedMagicMethodException;
 use TurboLabIt\TLIBaseBundle\Exception\WrongTypeException;
 
 
@@ -26,7 +27,7 @@ abstract class ServiceEntity
     }
 
 
-    public function loadBySlugId(string $slugId)
+    public function loadBySlugId(string $slugId): static
     {
         $arrSlugId = $this->unpackSlugId($slugId);
         if( empty($arrSlugId) ){
@@ -37,13 +38,13 @@ abstract class ServiceEntity
     }
 
 
-    public function loadById(int $id)
+    public function loadById(int $id): static
     {
         return $this->loadByFieldsValues(['id' => $id]);
     }
 
 
-    public function loadByFieldsValues(array $arrFieldsValues)
+    public function loadByFieldsValues(array $arrFieldsValues): static
     {
         $this->reset();
 
@@ -57,7 +58,7 @@ abstract class ServiceEntity
     }
 
 
-    public function fakeLoadBySlugId(string $slugId)
+    public function fakeLoadBySlugId(string $slugId): static
     {
         $arrSlugId = $this->unpackSlugId($slugId);
         if( empty($arrSlugId) ){
@@ -68,7 +69,7 @@ abstract class ServiceEntity
     }
 
 
-    public function fakeLoadById(int $id)
+    public function fakeLoadById(int $id): static
     {
         $this->reset();
         $this->entity->setId($id);
@@ -76,7 +77,7 @@ abstract class ServiceEntity
     }
 
 
-    public function setEntity($entity)
+    public function setEntity($entity): static
     {
         if( empty($entity) ) {
 
@@ -104,7 +105,7 @@ abstract class ServiceEntity
     }
 
 
-    public function setData(array $arrData)
+    public function setData(array $arrData): static
     {
         $this->arrData = $arrData;
         return $this;
@@ -133,7 +134,7 @@ abstract class ServiceEntity
     }
 
 
-    public function setSelected(bool $isIt = true)
+    public function setSelected(bool $isIt = true): static
     {
         $this->isSelected = $isIt;
         return $this;
@@ -178,18 +179,18 @@ abstract class ServiceEntity
     }
 
 
-    public function increase($field)
+    public function increase($field): static
     {
         $this->repository->atomicFieldIncrease($field, $this->getId());
+        return $this;
     }
 
 
-    public function save(bool $autoflush = false)
+    public function save(bool $autoflush = true): static
     {
         $this->em->persist($this->entity);
 
         if($autoflush) {
-
             $this->em->flush();
         }
 
@@ -217,25 +218,19 @@ abstract class ServiceEntity
             return $fromData;
         }
 
-        // handling a set on the entity
-        if( stripos($name, 'set') === 0 ) {
-
-            $this->entity->$name(...$arguments);
-            return $this;
-        }
-
         // handling a function call without "get"
         if( !method_exists($this->entity, $name) && stripos($name, 'get') !== 0 ) {
-
             $name = 'get' . ucfirst($name);
         }
 
-        // if the method still doesn't exists on the entity => throw a specific exception to notify the developer
-        if( !method_exists($this->entity, $name) ) {
+        // calling the method on the entity
+        if( method_exists($this->entity, $name) ) {
 
-            throw new UndefinedMagicMethodException($name);
+            $result = $this->entity->$name(...$arguments);
+            return $result === $this->entity ? $this : $result;
         }
 
-        return $this->entity->$name(...$arguments);
+        // if the method still doesn't exists on the entity => throw a specific exception to notify the developer
+        throw new UndefinedMagicMethodException($name);
     }
 }

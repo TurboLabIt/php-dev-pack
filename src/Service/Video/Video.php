@@ -1,8 +1,9 @@
 <?php
 namespace TurboLabIt\TLIBaseBundle\Service\Video;
 
-
 use TurboLabIt\TLIBaseBundle\Exception\UnhandledVideoUrl;
+use TurboLabIt\TLIBaseBundle\Exception\UndefinedMagicMethodException;
+
 
 class Video
 {
