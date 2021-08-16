@@ -13,17 +13,19 @@ abstract class ServiceEntity
 {
     protected EntityManager $em;
     protected ServiceEntityRepository $repository;
+    protected \Exception $notFoundException;
 
     protected $entity;
     protected array $arrData = [];
     protected bool $isSelected = false;
 
 
-    public function __construct(EntityManagerInterface $em, string $entityClassName)
+    public function __construct(EntityManagerInterface $em, string $entityClassName, \Exception $notFoundException = null)
     {
-        $this->em           = $em;
-        $this->repository   = $this->em->getRepository($entityClassName);
-        $this->entity       = new $entityClassName();
+        $this->em                   = $em;
+        $this->repository           = $this->em->getRepository($entityClassName);
+        $this->entity               = new $entityClassName();
+        $this->notFoundException    = empty($notFoundException) ? new EntityLoadNotFoundException() : $notFoundException;
     }
 
 
@@ -130,7 +132,11 @@ abstract class ServiceEntity
 
     protected function throwNotFoundException()
     {
-        throw new EntityLoadNotFoundException();
+        if( method_exists($this->notFoundException, 'log') ) {
+            $this->notFoundException->log();
+        }
+
+        throw $this->notFoundException;
     }
 
 

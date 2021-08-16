@@ -4,6 +4,7 @@ namespace TurboLabIt\TLIBaseBundle\Service\ServiceEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use TurboLabIt\TLIBaseBundle\Exception\EntityLoadNotFoundException;
 use TurboLabIt\TLIBaseBundle\Traits\Foreachable;
 
 
@@ -11,15 +12,17 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
 {
     use Foreachable;
 
-    protected string $entityClassName;
     protected EntityManager $em;
     protected ServiceEntityRepository $repository;
+    protected string $entityClassName;
+    protected \Exception $notFoundException;
 
 
-    public function __construct(EntityManagerInterface $em, string $entityClassName)
+    public function __construct(EntityManagerInterface $em, string $entityClassName, \Exception $notFoundException = null)
     {
-        $this->em           = $em;
-        $this->repository   = $this->em->getRepository($entityClassName);
+        $this->em                   = $em;
+        $this->repository           = $this->em->getRepository($entityClassName);
+        $this->notFoundException    = empty($notFoundException) ? new EntityLoadNotFoundException() : $notFoundException;
     }
 
 
