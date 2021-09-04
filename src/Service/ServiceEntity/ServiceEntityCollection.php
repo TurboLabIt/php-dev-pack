@@ -102,5 +102,5 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
     }
 
 
-    abstract protected function createService();
+    abstract public function createService();
 }
