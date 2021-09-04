@@ -225,7 +225,7 @@ abstract class ServiceEntity
         }
 
         // handling a function call without "get"
-        if( !method_exists($this->entity, $name) && stripos($name, 'get') !== 0 ) {
+        if( !method_exists($this->entity, $name) && stripos($name, 'get') !== 0 && stripos($name, 'set') === false ) {
             $name = 'get' . ucfirst($name);
         }
 
