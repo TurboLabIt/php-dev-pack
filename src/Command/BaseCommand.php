@@ -54,7 +54,7 @@ abstract class BaseCommand extends Command
 
     protected function success()
     {
-        $this->io->success('Success! - End: ' . (new \DateTime())->format("Y-m-d H:m:s"));
+        $this->io->success('Success! - End: ' . (new \DateTime())->format("Y-m-d H:i:s"));
         return self::SUCCESS;
     }
 }
