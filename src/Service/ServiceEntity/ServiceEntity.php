@@ -237,6 +237,6 @@ abstract class ServiceEntity
         }
 
         // if the method still doesn't exists on the entity => throw a specific exception to notify the developer
-        throw new UndefinedMagicMethodException($name);
+        throw new UndefinedMagicMethodException($this, $name);
     }
 }
