@@ -46,7 +46,7 @@ abstract class BaseCommand extends Command
             return self::FAILURE;
         }
 
-        $this->io->block("Running ##" . $this->getName() . "## - Start: " . $this->startedAt->format("Y-m-d H:m:s"), null, 'fg=black;bg=cyan', ' ', true);
+        $this->io->block("Running ##" . $this->getName() . "## - Start: " . $this->startedAt->format("Y-m-d H:i:s"), null, 'fg=black;bg=cyan', ' ', true);
 
         return self::SUCCESS;
     }
