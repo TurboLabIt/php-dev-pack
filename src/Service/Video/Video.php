@@ -97,6 +97,6 @@ class Video
         }
 
         // if the key still doesn't exists => throw a specific exception to notify the developer
-        throw new UndefinedMagicMethodException($name);
+        throw new UndefinedMagicMethodException($this, $name);
     }
 }
