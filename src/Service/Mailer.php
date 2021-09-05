@@ -43,30 +43,43 @@ class Mailer
             $email->to($arrMailerConfig["to"]["address"]);
         }
 
+        // this header tells auto-repliers ("email holiday mode") to not
+        // reply to this message because it's an automated email
+        $email->getHeaders()->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
+
         return $email;
     }
 
 
     public function sendTest()
     {
-        return $this->sendStandardEmail(
-            "mr.recipient@test.com", "Mr. Recipient",
-            "This is a test",
-            '@TLIBase/email/test.html.twig', ["now" => new \DateTime()],
-            ["mr.cc@test.com"]
-        );
+        return
+            $this->buildStandardEmail(
+                "mr.recipient@test.com", "Mr. Recipient",
+                "This is a test", true,
+                '@TLIBase/email/test.html.twig', ["now" => new \DateTime()],
+                ["mr.cc@test.com"]
+            )
+            ->send();
     }
 
 
-    public function sendStandardEmail(
-        string $toAddress, string $toName, string $subjectUntagged,
+    public function buildStandardEmail(
+        string $toAddress, string $toName,
+        string $subjectUntagged, bool $addTagToSubject,
         string $templateFilename, array $arrTemplateData,
         array $arrCc = [],
         $fromAddress = null, $fromName = null
-    ) {
-        $subjectTag         = trim($this->arrMailerConfig["subject"]["tag"]);
-        $subjectTagged      = empty($subjectTag) ? $subjectUntagged : ($subjectTag . " " . $subjectUntagged);
+    ): static {
 
+        // FROM:
+        if( !empty($fromAddress) ) {
+
+            $fromName = empty($fromName) ? $this->arrMailerConfig["from"]["name"] : $fromName;
+            $this->email->from(new Address($fromAddress, $fromName));
+        }
+
+        // TO:
         if( !empty($toAddress) && !empty($toName) ) {
 
             $this->email->to(new Address($toAddress, $toName));
@@ -76,20 +89,7 @@ class Mailer
             $this->email->to(new Address($toAddress));
         }
 
-        $this->email
-            ->subject($subjectTagged)
-            ->htmlTemplate($templateFilename)
-            ->context(array_merge($arrTemplateData, [ "emailEnvelopeData" => [
-                "toAddress"     => $toAddress,
-                "toName"        => $toName,
-                "subject"       => [
-                    "tag"       => $subjectTag,
-                    "untagged"  => $subjectUntagged
-                ],
-                "fromAddress"   => $fromAddress,
-                "fromName"      => $fromName
-            ]]));
-
+        // CC:
         if( !empty($arrCc) ) {
 
             foreach($arrCc as $ccAddress) {
@@ -98,17 +98,43 @@ class Mailer
             }
         }
 
-        if( !empty($fromAddress) ) {
+        // SUBJECT:
+        $subjectTag     = empty($this->arrMailerConfig["subject"]["tag"]) ? null : trim($this->arrMailerConfig["subject"]["tag"]);
+        $subjectTagged  = empty($subjectTag) ? $subjectUntagged : ($subjectTag . " " . $subjectUntagged);
+        $subject        = $addTagToSubject ? $subjectTagged : $subjectUntagged;
 
-            $fromName = empty($fromName) ? $this->arrMailerConfig["from"]["name"] : $fromName;
-            $this->email->from(new Address($fromAddress, $fromName));
-        }
+        // BUILDING
+        $this->email
+            ->subject($subject)
+            ->htmlTemplate($templateFilename)
+            ->context(array_merge($arrTemplateData, [ "emailEnvelopeData" => [
+                "toAddress"     => $toAddress,
+                "toName"        => $toName,
+                "subject"       => [
+                        "tag"       => $subjectTag,
+                        "untagged"  => $subjectUntagged,
+                        "used"      => $subject
+                ],
+                "fromAddress"   => $fromAddress,
+                "fromName"      => $fromName
+            ]]));
 
-        return $this->send($this->email);
+        return $this;
     }
 
 
-    protected function send()
+    public function addUnsubscribeLink(string $url, string $emailAddress): static
+    {
+        // https://datatracker.ietf.org/doc/html/rfc2369#section-3.2
+        $this->email->getHeaders()->addTextHeader('List-Unsubscribe',
+            '<' . $url . '>, <mailto:' . $emailAddress . '>'
+        );
+
+        return $this;
+    }
+
+
+    public function send()
     {
         return $this->mailer->send($this->email);
     }
