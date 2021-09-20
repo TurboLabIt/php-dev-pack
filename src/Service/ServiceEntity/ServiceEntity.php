@@ -5,6 +5,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use TurboLabIt\TLIBaseBundle\Exception\EntityLoadNotFoundException;
+use TurboLabIt\TLIBaseBundle\Exception\NullInputException;
 use TurboLabIt\TLIBaseBundle\Exception\UndefinedMagicMethodException;
 use TurboLabIt\TLIBaseBundle\Exception\WrongTypeException;
 
@@ -42,6 +43,7 @@ abstract class ServiceEntity
 
     public function loadById(int $id): static
     {
+        $this->checkNotNullInput($id);
         return $this->loadByFieldsValues(['id' => $id]);
     }
 
@@ -73,7 +75,10 @@ abstract class ServiceEntity
 
     public function fakeLoadById(int $id): static
     {
-        $this->reset();
+        $this
+            ->checkNotNullInput($id)
+            ->reset();
+
         $this->entity->setId($id);
         return $this;
     }
@@ -82,7 +87,6 @@ abstract class ServiceEntity
     public function setEntity($entity): static
     {
         if( empty($entity) ) {
-
             return $this->throwNotFoundException();
         }
 
@@ -92,7 +96,6 @@ abstract class ServiceEntity
 
         $receivedEntity         = get_class($entity);
         if( !in_array($receivedEntity, $arrAcceptedEntity) ) {
-
             throw new WrongTypeException("Expected: " . implode(' | ', $arrAcceptedEntity) . " | Received: " . $receivedEntity);
         }
 
@@ -117,12 +120,10 @@ abstract class ServiceEntity
     public function getData($index = null)
     {
         if( $index === null ) {
-
             return $this->arrData;
         }
 
         if( array_key_exists($index, $this->arrData) ) {
-
             return $this->arrData[$index];
         }
 
@@ -156,7 +157,6 @@ abstract class ServiceEntity
     public function getAsArray(array $options = []): array
     {
         return array_merge($this->getData(), [
-
             "id" => $this->entity->getId()
         ]);
     }
@@ -166,7 +166,6 @@ abstract class ServiceEntity
     {
         $lastDash = strrpos($txtSlugId, '-');
         if( $lastDash === false ){
-
             return null;
         }
 
@@ -174,7 +173,6 @@ abstract class ServiceEntity
         $id     = substr($txtSlugId, $lastDash + 1);
 
         if( preg_match('/^[1-9][0-9]*$/', $id) === false ) {
-
             return null;
         }
 
@@ -182,6 +180,21 @@ abstract class ServiceEntity
             "slug"  => $slug,
             "id"    => $id
         ];
+    }
+
+
+    public function checkNotNullInput($input, bool $trimValues = true): static
+    {
+        $arrInput = is_array($input) ? $input : [$input];
+        foreach($arrInput as $item) {
+
+            $item = is_string($item) && $trimValues ? trim($item) : $item;
+            if( empty($item) ) {
+                throw new NullInputException();
+            }
+        }
+
+        return $this;
     }
 
 
