@@ -20,6 +20,60 @@ symfony composer require turbolabit/tli-base-bundle:dev-master
 ````
 
 
+## 🏗️ Service Entity
+
+A *Service Entity* (SE) is a building block for a specific area of the application. Each SE is design to wrap (as in: *has-an*) *entity*, but it can store additional data (from API response, for example). Each SE is also an *Active Record* for the related entity (welcome back, `->save()`) but, most important of all, **contains the business logic** for the related area of the application.
+
+For maximum portability, create an abstract class on the project (`src/Service/AbstractBase/BaseServiceEntity.php`):
+
+````php
+<?php
+namespace App\Service\AbstractBase;
+
+use TurboLabIt\TLIBaseBundle\Service\ServiceEntity\ServiceEntity;
+
+
+abstract class BaseServiceEntity extends ServiceEntity
+{
+
+}
+
+````
+
+Now create your own SE:
+
+````php
+<?php
+namespace App\Service\Article;
+
+use App\Exception\ArticleNotFoundException;
+use App\Service\AbstractBase\BaseServiceEntity;
+use Doctrine\ORM\EntityManagerInterface;
+
+
+class Article extends BaseServiceEntity
+{
+    public function __construct(
+        EntityManagerInterface $em, ArticleNotFoundException $articleNotFoundException
+        // ...
+    ){
+        parent::__construct($em, \App\Entity\Article::class, $articleNotFoundException);
+        // ...
+    }
+}
+
+````
+
+Some cool methods of SEs:
+
+- `->loadById(7)`
+- `->loadByFieldsValues(["title" => "My title", "type" => "news"])`
+- `->setData($arrApiResponseData)`
+- `->checkNotNullInput($myVar)`
+- [more](https://github.com/TurboLabIt/TLIBaseBundle/edit/master/src/Service/ServiceEntity/ServiceEntity.php)
+
+
+
 ## 🔁 Trait Foreachable
 
 Use it to quickly create collections of objects. You can then iterate over it.
