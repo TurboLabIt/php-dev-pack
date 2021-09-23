@@ -102,7 +102,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Exception\ArticleNotFoundException;
 
 
-abstract class ArticleCollection extends BaseServiceCollection
+class ArticleCollection extends BaseServiceCollection
 {
     public function __construct(
         EntityManagerInterface $em, ArticleNotFoundException $notFoundException,
