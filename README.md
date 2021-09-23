@@ -118,7 +118,6 @@ class ArticleCollection extends BaseServiceCollection
         return new Article(
             $this->em, $this->notFoundException
             // ...
-            );
         );
     }
 }
