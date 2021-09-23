@@ -35,12 +35,11 @@ use TurboLabIt\TLIBaseBundle\Service\ServiceEntity\ServiceEntity;
 
 abstract class BaseServiceEntity extends ServiceEntity
 {
-
 }
 
 ````
 
-Now create your own SE:
+Now create your own SE (`src/Service/Article/Article.php`):
 
 ````php
 <?php
@@ -72,6 +71,67 @@ Some cool methods of SEs:
 - `->checkNotNullInput($myVar)`
 - [more](https://github.com/TurboLabIt/TLIBaseBundle/edit/master/src/Service/ServiceEntity/ServiceEntity.php)
 
+
+## 🏗️ Service Entity Collection
+
+A *Service Entity Collection* (SEC) is an itrable structure wich holds multiple instances of a related SE.
+
+For maximum portability, create an abstract class on the project (`src/Service/AbstractBase/BaseServiceEntityCollection.php`):
+
+````php
+<?php
+namespace App\Service\AbstractBase;
+
+use TurboLabIt\TLIBaseBundle\Service\ServiceEntity\ServiceEntityCollection;
+
+
+abstract class BaseServiceEntityCollection extends ServiceEntityCollection
+{
+}
+
+````
+
+Now create your own SEC (`src/Service/Article/ArticleCollection.php`)
+
+````php
+<?php
+namespace App\Service\Article;
+
+use App\Exception\ArticleNotFoundException;
+use App\Service\AbstractBase\BaseServiceEntityCollection;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
+
+
+abstract class ArticleCollection extends BaseServiceCollection
+{
+    public function __construct(
+        EntityManagerInterface $em, ArticleNotFoundException $notFoundException,
+        // ...
+    ) {
+        parent::__construct($em, \App\Entity\Article::class, $notFoundException);
+        // ...
+    }
+
+
+    public function createService()
+    {
+        return new Article(
+            $this->em, $this->notFoundException
+            // ...
+            );
+        );
+    }
+}
+
+````
+
+Some cool methods of SEs:
+
+- `->loadByIds(7,15,24)`
+- `->loadAll()`
+- `->toCsv(',', 'getTitle')`
+- [more](https://github.com/TurboLabIt/TLIBaseBundle/edit/master/src/Service/ServiceEntity/ServiceEntityCollection.php)
 
 
 ## 🔁 Trait Foreachable
