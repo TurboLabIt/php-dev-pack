@@ -45,9 +45,9 @@ Now create your own SE (`src/Service/Article/Article.php`):
 <?php
 namespace App\Service\Article;
 
-use App\Exception\ArticleNotFoundException;
 use App\Service\AbstractBase\BaseServiceEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Exception\ArticleNotFoundException;
 
 
 class Article extends BaseServiceEntity
@@ -97,10 +97,9 @@ Now create your own SEC (`src/Service/Article/ArticleCollection.php`)
 <?php
 namespace App\Service\Article;
 
-use App\Exception\ArticleNotFoundException;
 use App\Service\AbstractBase\BaseServiceEntityCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
+use App\Exception\ArticleNotFoundException;
 
 
 abstract class ArticleCollection extends BaseServiceCollection
