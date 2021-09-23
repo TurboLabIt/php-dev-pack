@@ -72,7 +72,7 @@ Some cool methods of SEs:
 - [more](https://github.com/TurboLabIt/TLIBaseBundle/edit/master/src/Service/ServiceEntity/ServiceEntity.php)
 
 
-## 🏗️ Service Entity Collection
+## 🏗️🏗️🏗️ Service Entity Collection
 
 A *Service Entity Collection* (SEC) is an itrable structure wich holds multiple instances of a related SE.
 
