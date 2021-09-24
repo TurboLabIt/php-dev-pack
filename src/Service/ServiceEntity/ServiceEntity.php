@@ -231,10 +231,15 @@ abstract class ServiceEntity
     public function __call(string $name, array $arguments)
     {
         // looking in "data" first
-        $fromData = $this->getData($name);
-        if( $fromData !== null ) {
+        $dataName = strpos($name, "get") === 0 ? substr($name, 3) : $name;
+        $dataName = lcfirst($dataName);
+        if( array_key_exists($dataName, $this->arrData) ) {
+            return $this->arrData[$dataName];
+        }
 
-            return $fromData;
+        $dataName = ucfirst($dataName);
+        if( array_key_exists($dataName, $this->arrData) ) {
+            return $this->arrData[$dataName];
         }
 
         // handling a function call without "get"
