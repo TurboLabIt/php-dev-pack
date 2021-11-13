@@ -22,18 +22,15 @@ trait IdableEntity
     {
         $intId = (int)$id;
         if( $intId === 0 && $id != 0 ) {
-
             throw new \InvalidArgumentException();
         }
 
         if( $intId === 0 && !$this->acceptZero ) {
-
             throw new \ValueError();
         }
 
 
         if( $intId < 0 ) {
-
             throw new \ValueError();
         }
 

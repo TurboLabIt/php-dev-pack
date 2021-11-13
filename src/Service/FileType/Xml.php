@@ -14,14 +14,12 @@ class Xml
         $loadResult = @$oXml->loadXML($txtXml);
 
         if($loadResult === false ) {
-
             throw new InvalidXmlException("Xml::prettify() was unable to parse the provided string as XML");
         }
 
         $prettyXml = $oXml->saveXML();
 
         if($removeXMLHeader) {
-
             $prettyXml = preg_replace('/^.+' . PHP_EOL . '/', '', $prettyXml);
         }
 

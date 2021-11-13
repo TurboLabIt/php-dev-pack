@@ -33,7 +33,7 @@ abstract class ServiceEntity
     {
         $arrSlugId = $this->unpackSlugId($slugId);
         if( empty($arrSlugId) ){
-            return $this->throwNotFoundException();
+            return $this->throwNotFoundException($slugId);
         }
 
         return $this->loadById($arrSlugId["id"]);
@@ -53,8 +53,7 @@ abstract class ServiceEntity
 
         $entity = $this->repository->findOneBy($arrFieldsValues);
         if (empty($entity) ) {
-
-            $this->throwNotFoundException();
+            $this->throwNotFoundException($arrFieldsValues);
         }
 
         return $this->setEntity($entity);
@@ -65,7 +64,7 @@ abstract class ServiceEntity
     {
         $arrSlugId = $this->unpackSlugId($slugId);
         if( empty($arrSlugId) ){
-            return $this->throwNotFoundException();
+            return $this->throwNotFoundException($slugId);
         }
 
         return $this->fakeLoadById($arrSlugId["id"]);
@@ -130,8 +129,12 @@ abstract class ServiceEntity
     }
 
 
-    protected function throwNotFoundException()
+    protected function throwNotFoundException(array $data = [])
     {
+        if( method_exists($this->notFoundException, 'setData') ) {
+            $this->notFoundException->setData($data);
+        }
+
         if( method_exists($this->notFoundException, 'log') ) {
             $this->notFoundException->log();
         }
