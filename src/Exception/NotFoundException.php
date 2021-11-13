@@ -4,34 +4,25 @@ namespace TurboLabIt\TLIBaseBundle\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 
-abstract class NotFoundException extends NotFoundHttpException
+abstract class NotFoundException extends BaseException
 {
-    const SEVERITY_CRITICAL = 'critical';
-    const SEVERITY_HIGH     = 'alert';
-    const SEVERITY_MEDIUM   = 'warning';
-    const SEVERITY_LOW      = 'notice';
-
+    protected $code = Response::HTTP_NOT_FOUND;
     protected Request|null $request;
 
-    protected $category     = 'undefined';
-    protected $severity     = 'alert';
-
-
     public function __construct(
-        protected LoggerInterface $logger,
-        protected array $arrData = [],
+        ?LoggerInterface $logger,
+        array $arrData = [],
+        string $message = '',
         ?RequestStack $requestStack = null,
         protected ?string $requestUrl = null,
         protected ?string $referrer = null,
-        \Throwable $previous = null, int $code = 0, array $headers = [],
+        \Throwable $previous = null
     ) {
         $this->setPropertyFromRequest($requestStack, $requestUrl, $referrer);
-
-        $message = $this->buildMessage();
-        parent::__construct($message, $previous, $code, $headers);
+        parent::__construct($logger, $arrData, $message, $previous);
     }
 
 
@@ -61,63 +52,11 @@ abstract class NotFoundException extends NotFoundHttpException
     }
 
 
-    public function setSeverity(string $severity) : static
+    public function getMessageComponents() : array
     {
-        $this->severity = $severity;
-        $this->buildMessage();
-        return $this;
-    }
-
-    
-    public function setData(array $arrData = []) : static
-    {
-        $this->arrData = $arrData;
-        $this->buildMessage();
-        return $this;
-    }
-
-    
-    public function log() : static
-    {
-        $this->buildMessage();
-        $this->logger->{$this->severity}($this->getMessage());
-        return $this;
-    }
-
-
-    public function buildMessage() : string
-    {
-        $arrInfo = array_merge_recursive([
-            "Category"  => $this->category,
-            "Severity"  => $this->getSeverityText(),
+        return array_merge_recursive(parent::getMessageComponents(), [
             "URL"       => $this->requestUrl,
             "Referrer"  => $this->referrer
-        ], $this->arrData);
-        
-        $message = '';
-        foreach($arrInfo as $key => $value) {
-            
-            if( !empty($value) ) {
-                $message .= $key . ': ##' . trim(strip_tags($value)) . "## | ";
-            }
-        }
-
-        $this->message = trim($message);
-        return $this->message;
-    }
-
-
-    public function getSeverityText() : string
-    {
-        $text = match($this->severity) {
-            static::SEVERITY_CRITICAL   => '🚨',
-            static::SEVERITY_HIGH      => '🔥',
-            static::SEVERITY_MEDIUM    => '📯',
-            static::SEVERITY_LOW       => '⚠',
-            default                     => '📌'
-        };
-
-        $text .= ' ' . $this->severity;
-        return $text;
+        ]);
     }
 }

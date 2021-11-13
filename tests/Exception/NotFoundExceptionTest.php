@@ -7,6 +7,7 @@ use TurboLabIt\TLIBaseBundle\Exception\NotFoundException;
 
 class NotFoundExceptionTest extends TestCase
 {
+    const MESSAGE   = "This exception is a test";
     const PAGE_URL  = 'http://example.com/page-with-error';
     const REF_URL   = 'http://example.com/referring-page';
     const ID        = '91875';
@@ -15,7 +16,9 @@ class NotFoundExceptionTest extends TestCase
 
     public function testCreateInstance()
     {
-        $ex = new MockNotFoundException( (new MockLogger()), [], null, static::PAGE_URL, static::REF_URL );
+        $ex = new MockNotFoundException(
+            (new MockLogger()), [], static::MESSAGE, null,static::PAGE_URL, static::REF_URL
+        );
         $this->assertInstanceOf('TurboLabIt\TLIBaseBundle\Exception\NotFoundException', $ex);
         return $ex;
     }
@@ -53,5 +56,12 @@ class NotFoundExceptionTest extends TestCase
 
         $this->assertStringContainsString(static::ID, $actualText);
         $this->assertStringContainsString(static::TITLE, $actualText);
+    }
+
+
+    public function testThrowability()
+    {
+        $this->expectException(NotFoundException::class);
+        throw $this->testCreateInstance();
     }
 }
