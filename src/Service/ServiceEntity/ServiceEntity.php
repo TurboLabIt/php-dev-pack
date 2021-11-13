@@ -12,7 +12,6 @@ use TurboLabIt\TLIBaseBundle\Exception\WrongTypeException;
 
 abstract class ServiceEntity
 {
-    protected EntityManager $em;
     protected ServiceEntityRepository $repository;
     protected \Exception $notFoundException;
 
@@ -21,9 +20,9 @@ abstract class ServiceEntity
     protected bool $isSelected = false;
 
 
-    public function __construct(EntityManagerInterface $em, string $entityClassName, \Exception $notFoundException = null)
+    public function __construct(
+        protected EntityManagerInterface $em, string $entityClassName, \Exception $notFoundException = null)
     {
-        $this->em                   = $em;
         $this->repository           = $this->em->getRepository($entityClassName);
         $this->entity               = new $entityClassName();
         $this->notFoundException    = empty($notFoundException) ? new EntityLoadNotFoundException() : $notFoundException;

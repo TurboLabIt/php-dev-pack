@@ -6,8 +6,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class PaginatorBase
 {
-    protected UrlGeneratorInterface $urlGenerator;
-
     // page numbers
     protected int $currentPageNum       = 0;
     protected int $totalElementsNum     = 0;
@@ -19,9 +17,10 @@ abstract class PaginatorBase
     protected array $arrNextPage        = [];
 
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
-    {
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(
+        protected UrlGeneratorInterface $urlGenerator
+    ) {
+
     }
 
 

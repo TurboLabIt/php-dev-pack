@@ -12,13 +12,12 @@ abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayA
 {
     use Foreachable;
 
-    protected EntityManager $em;
     protected ServiceEntityRepository $repository;
-    protected string $entityClassName;
     protected \Exception $notFoundException;
 
 
-    public function __construct(EntityManagerInterface $em, string $entityClassName, \Exception $notFoundException = null)
+    public function __construct(
+        protected EntityManagerInterface $em, string $entityClassName, \Exception $notFoundException = null)
     {
         $this->em                   = $em;
         $this->repository           = $this->em->getRepository($entityClassName);

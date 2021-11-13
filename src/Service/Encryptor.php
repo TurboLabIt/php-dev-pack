@@ -18,7 +18,7 @@ class Encryptor
     ];
 
 
-    public function __construct($secretKey)
+    public function __construct(string $secretKey)
     {
         $this->secretKey    = openssl_digest($secretKey, static::KEY_HASHING_ALGO, true);
         $this->iv_num_bytes = openssl_cipher_iv_length(static::ENCRYPT_ALGO);

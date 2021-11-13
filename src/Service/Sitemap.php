@@ -15,12 +15,6 @@ class Sitemap
     const FORMAT_INDEX      = 'index';
     const URL_MAX_PER_FILE  = 40000;
 
-    protected ParameterBagInterface $parameterBag;
-    protected Environment $twig;
-    protected Xml $xmlFileType;
-    protected Filesystem $filesystem;
-    protected HttpClientInterface $httpClient;
-
     protected string $sitemapBaseUrl;
     protected string $indexFileUrl;
 
@@ -28,14 +22,13 @@ class Sitemap
     protected array $arrUrlsByFileName = [];
 
 
-    public function __construct(ParameterBagInterface $parameterBag, Environment $twig, Xml $xmlFileType, Filesystem $filesystem, HttpClientInterface $httpClient)
-    {
-        $this->parameterBag = $parameterBag;
-        $this->twig         = $twig;
-        $this->xmlFileType  = $xmlFileType;
-        $this->filesystem   = $filesystem;
-        $this->httpClient   = $httpClient;
-
+    public function __construct(
+        protected ParameterBagInterface $parameterBag,
+        protected Environment $twig,
+        protected Xml $xmlFileType,
+        protected Filesystem $filesystem,
+        protected HttpClientInterface $httpClient
+    ) {
         $this->createDirectoryTemporary(true);
     }
 

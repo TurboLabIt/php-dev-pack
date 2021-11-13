@@ -9,17 +9,14 @@ use TurboLabIt\TLIBaseBundle\Service\Video\Video;
 
 class YouTubeChannelApi
 {
-    protected array $arrConfig;
-    protected HttpClientInterface $httpClient;
-    protected AdapterInterface $cache;
-
     protected $apiEndpoint = "https://youtube.googleapis.com/youtube/v3/";
 
 
-    public function __construct($arrConfig, HttpClientInterface $httpClient)
-    {
-        $this->arrConfig    = $arrConfig;
-        $this->httpClient   = $httpClient;
+    public function __construct(
+        protected array $arrConfig,
+        protected HttpClientInterface $httpClient
+    ) {
+
     }
 
 

@@ -8,13 +8,13 @@ use Symfony\Component\Mime\Address;
 
 class Mailer
 {
-    protected $arrMailerConfig;
-    protected $mailer;
     protected $email;
 
 
-    public function __construct($arrMailerConfig, MailerInterface $mailer)
-    {
+    public function __construct(
+        protected array $arrMailerConfig,
+        protected MailerInterface $mailer
+    ) {
         $this->arrMailerConfig  = $arrMailerConfig;
         $this->mailer           = $mailer;
         $this->email            = $this->emailInit($arrMailerConfig);

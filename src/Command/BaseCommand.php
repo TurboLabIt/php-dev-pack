@@ -21,13 +21,13 @@ abstract class BaseCommand extends Command
     protected SymfonyStyle $io;
 
     protected $startedAt;
-    protected $em;
 
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(
+        protected EntityManagerInterface $em
+    )
     {
         parent::__construct();
-        $this->em = $em;
 
         ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% -- %message%');
     }
