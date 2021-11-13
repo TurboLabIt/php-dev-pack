@@ -52,6 +52,6 @@ class TliTwigRuntime implements RuntimeExtensionInterface
             return $num . ' minuti fa';
         }
 
-        return 'pochi secondi fa';
+        return 'un attimo fa';
     }
 }

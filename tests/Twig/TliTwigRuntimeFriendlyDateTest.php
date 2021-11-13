@@ -74,7 +74,7 @@ class TliTwigRuntimeFriendlyDateTest extends TestCase
         for($i=0; $i < 30; $i++) {
 
             $date           = (new \DateTime())->modify('-' . $i . ' minutes');
-            $expectedValue  = 'adesso';
+            $expectedValue  = 'un attimo fa';
             $actualValue    = (new TliTwigRuntime())->friendlyDate($date);
             $this->assertEquals($expectedValue, $actualValue);
         }
