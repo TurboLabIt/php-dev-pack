@@ -34,11 +34,11 @@ class YouTubeChannelApi
 
             if( empty($response) ) {
 
-                $item->expiresAfter(0);
+                $item->expiresAfter(1);
 
             } else {
 
-                $item->expiresAfter($this->arrConfig["latestCacheMinutes"]);
+                $item->expiresAfter($this->arrConfig["latestCacheMinutes"] * 60);
             }
 
             return $response;
