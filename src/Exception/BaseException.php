@@ -3,9 +3,10 @@ namespace TurboLabIt\TLIBaseBundle\Exception;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
-abstract class BaseException extends \RuntimeException
+abstract class BaseException extends HttpException
 {
     const SEVERITY_CRITICAL = 'critical';
     const SEVERITY_HIGH     = 'alert';
@@ -24,7 +25,7 @@ abstract class BaseException extends \RuntimeException
         \Throwable $previous = null
     )
     {
-        parent::__construct($extraMessage, $this->code, $previous);
+        parent::__construct($this->code, $extraMessage, $previous);
     }
 
 
