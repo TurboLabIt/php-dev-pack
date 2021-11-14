@@ -48,6 +48,8 @@
         <service id="TurboLabIt\TLIBaseBundle\Twig\TliTwigRuntime">
             <tag name="twig.runtime"/>
         </service>
+
+        <service id="TurboLabIt\TLIBaseBundle\Service\Video\YouTube\Api\YouTubeChannelApi" autowire="true" />
     </services>
 
 </container>
