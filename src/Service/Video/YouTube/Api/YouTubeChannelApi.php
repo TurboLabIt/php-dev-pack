@@ -3,7 +3,9 @@ namespace TurboLabIt\TLIBaseBundle\Service\Video\YouTube\Api;
 
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use TurboLabIt\TLIBaseBundle\Exception\YouTubeException;
 use TurboLabIt\TLIBaseBundle\Service\Video\Video;
 
 
@@ -14,13 +16,39 @@ class YouTubeChannelApi
 
     public function __construct(
         protected array $arrConfig,
-        protected HttpClientInterface $httpClient
-    ) {
+        protected HttpClientInterface $httpClient,
+        protected AdapterInterface $cache,
+        protected YouTubeException $exception
+    )
+    {
 
     }
 
 
     public function getLatestVideos(int $results = 5): ?array
+    {
+        $cacheKey   = "youtube_latest-videos_" . $this->arrConfig["channelId"]  ."_" . $results;
+        $value = $this->cache->get($cacheKey, function (ItemInterface $item) use($results) {
+
+            $response = $this->getLatestVideosUncached($results);
+
+            if( empty($response) ) {
+
+                $item->expiresAfter(0);
+
+            } else {
+
+                $item->expiresAfter($this->arrConfig["latestCacheMinutes"]);
+            }
+
+            return $response;
+        });
+
+        return $value;
+    }
+
+
+    public function getLatestVideosUncached(int $results = 5): ?array
     {
         $apiEndpoint = $this->apiEndpoint . "search";
 
@@ -41,13 +69,11 @@ class YouTubeChannelApi
         try {
 
             if( $response->getStatusCode() != Response::HTTP_OK ) {
-
-                return null;
+                throw $this->exception;
             }
 
         } catch (\Exception $ex) {
-
-            return null;
+            throw $this->exception;
         }
 
 
@@ -55,13 +81,11 @@ class YouTubeChannelApi
         $objResponse = json_decode($txtResponse);
 
         if( empty($objResponse) || empty($objResponse->items) ) {
-
-            return null;
+            throw $this->exception;
         }
 
         $arrVideos = [];
         foreach($objResponse->items as $oneVideoItem) {
-
             $arrVideos[] = (new Video())->loadFromYouTubeApiResponse($oneVideoItem);
         }
 
