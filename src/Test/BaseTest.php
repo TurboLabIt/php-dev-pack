@@ -1,113 +1,45 @@
 <?php
 namespace TurboLabIt\TLIBaseBundle\Test;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
+use TurboLabIt\TLIBaseBundle\tests\TLIBaseTestingKernel;
 
 
-class BaseTest extends WebTestCase
+class BaseTest extends TestCase
 {
-    protected static $entityName;
     protected static $serviceName;
-    protected static $webDomain = 'localhost';
-  
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $entityManager;
-    
-    protected $httpClient;
+    protected static TLIBaseTestingKernel $theFineKernel;
 
 
-    protected function setUp(): void
+    protected function getService($serviceName)
     {
-        $this->httpClient    = static::createClient();
-        $this->entityManager = static::$kernel->getContainer()->get('doctrine')->getManager();
+        return static::getTheFineKernel()->getContainer()->get($serviceName);
     }
 
-    
-    protected function tearDown(): void
-    {
-        parent::tearDown();
 
-        // doing this is recommended to avoid memory leaks
-        $this->entityManager->close();
-        $this->entityManager = null;
-    }
-
-    
-    public function testInstance(): void
+    public function testInstance()
     {
-        $instance = $this->getService();
+        $instance = $this->getService(static::$serviceName);
         $this->assertInstanceOf(static::$serviceName, $instance);
+        return $instance;
     }
 
 
-    protected function getService()
+
+    protected static function getTheFineKernel() : TLIBaseTestingKernel
     {
-        return static::getContainer()->get(static::$serviceName);
+        if( empty(static::$theFineKernel) ) {
+
+            static::$theFineKernel = static::createKernel();
+            static::$theFineKernel->boot();
+        }
+
+        return static::$theFineKernel;
     }
 
 
-    protected function getRandomRecord($entityName = null)
+    protected static function createKernel(array $options = [])
     {
-        $entityName = $entityName ?: static::$entityName;
-        
-        return
-            $this->entityManager->getRepository($entityName)
-                ->createQueryBuilder('t')
-                    ->orderBy('RAND()')
-                    ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult();
-    }
-    
-    
-    protected function countRecord($entityName = null)
-    {
-        $entityName = $entityName ?: static::$entityName;
-        
-        return
-            $this->entityManager->getRepository($entityName)
-                ->createQueryBuilder('t')
-            ->select('COUNT(1)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-    
-    
-    protected function getLastRecord($entityName = null)
-    {
-        $entityName = $entityName ?: static::$entityName;
-        
-        return
-            $this->entityManager->getRepository($entityName)
-                ->createQueryBuilder('t')
-                    ->orderBy('t.id', 'DESC')
-                    ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult();
-    }
-    
-    
-    protected function runHttpRequest($url, $method = 'GET', array $server = [])
-    {
-        $this->httpClient->setServerParameters(array_merge([
-            "HTTP_HOST" => static::$webDomain
-        ], $server));
-
-        return $this->httpClient->request($method, $url);
-    }
-
-
-    protected function runHttpRequestJsonReponse($url, $method = 'GET', array $server = [])
-    {
-        $this->httpClient->setServerParameters(array_merge([
-            "HTTP_HOST" => static::$webDomain
-        ], $server));
-
-        $this->httpClient->request($method, $url);
-        $response = $this->httpClient->getResponse();
-
-        return json_decode($response->getContent(), true);
+        return new TLIBaseTestingKernel('test', true);
     }
 }

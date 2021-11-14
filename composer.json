@@ -25,7 +25,8 @@
         "twig/twig": "^3.3",
         "symfony/filesystem": "^5.3",
         "symfony/http-client": "^5.3",
-        "league/html-to-markdown": "^5.0"
+        "league/html-to-markdown": "^5.0",
+        "symfony/browser-kit": "^5.3"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3"
