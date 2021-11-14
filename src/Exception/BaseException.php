@@ -20,11 +20,11 @@ abstract class BaseException extends \RuntimeException
     public function __construct(
         protected ?LoggerInterface $logger = null,
         protected array $arrData = [],
-        string $message = '',
+        protected string $extraMessage = '',
         \Throwable $previous = null
     )
     {
-        parent::__construct($message, $this->code, $previous);
+        parent::__construct($extraMessage, $this->code, $previous);
     }
 
 
@@ -91,7 +91,7 @@ abstract class BaseException extends \RuntimeException
         return array_merge_recursive([
             "Category"  => $this->category,
             "Severity"  => $this->getSeverityText(),
-            "Message"   => $this->message
+            "Message"   => $this->extraMessage
         ], $this->arrData);
     }
 }

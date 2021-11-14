@@ -15,14 +15,14 @@ abstract class NotFoundException extends BaseException
     public function __construct(
         ?LoggerInterface $logger,
         array $arrData = [],
-        string $message = '',
+        string $extraMessage = '',
         ?RequestStack $requestStack = null,
         protected ?string $requestUrl = null,
         protected ?string $referrer = null,
         \Throwable $previous = null
     ) {
         $this->setPropertyFromRequest($requestStack, $requestUrl, $referrer);
-        parent::__construct($logger, $arrData, $message, $previous);
+        parent::__construct($logger, $arrData, $extraMessage, $previous);
     }
 
 
