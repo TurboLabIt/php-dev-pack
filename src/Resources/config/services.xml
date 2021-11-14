@@ -50,6 +50,7 @@
         </service>
 
         <service id="TurboLabIt\TLIBaseBundle\Service\Video\YouTube\Api\YouTubeChannelApi" autowire="true" />
+        <service id="TurboLabIt\TLIBaseBundle\Exception\YouTubeException" autowire="true" />
     </services>
 
 </container>
