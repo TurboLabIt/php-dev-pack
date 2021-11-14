@@ -1,6 +1,8 @@
 <?php
 namespace TurboLabIt\TLIBaseBundle\Exception;
 
+use Symfony\Component\HttpFoundation\Response;
+
 
 class YouTubeException extends BaseException
 {
