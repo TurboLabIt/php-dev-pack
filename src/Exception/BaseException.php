@@ -18,7 +18,7 @@ abstract class BaseException extends \RuntimeException
 
 
     public function __construct(
-        protected ?LoggerInterface $logger = null,
+        protected ?LoggerInterface $tliNotFoundLogger = null,
         protected array $arrData = [],
         protected string $extraMessage = '',
         \Throwable $previous = null
@@ -48,8 +48,8 @@ abstract class BaseException extends \RuntimeException
     {
         $this->buildMessage();
 
-        if( $this->logger instanceof LoggerInterface ) {
-            $this->logger->{$this->severity}($this->getMessage());
+        if( $this->tliNotFoundLogger instanceof LoggerInterface ) {
+            $this->tliNotFoundLogger->{$this->severity}($this->getMessage());
         }
 
         return $this;

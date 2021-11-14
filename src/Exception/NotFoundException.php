@@ -13,7 +13,7 @@ abstract class NotFoundException extends BaseException
     protected Request|null $request;
 
     public function __construct(
-        ?LoggerInterface $logger,
+        ?LoggerInterface $tliNotFoundLogger,
         array $arrData = [],
         string $extraMessage = '',
         ?RequestStack $requestStack = null,
@@ -22,7 +22,7 @@ abstract class NotFoundException extends BaseException
         \Throwable $previous = null
     ) {
         $this->setPropertyFromRequest($requestStack, $requestUrl, $referrer);
-        parent::__construct($logger, $arrData, $extraMessage, $previous);
+        parent::__construct($tliNotFoundLogger, $arrData, $extraMessage, $previous);
     }
 
 
