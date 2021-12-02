@@ -135,6 +135,25 @@ trait Foreachable
 
         return $keys[$this->position];
     }
+    
+    
+    public function iterate(callable $callback, ?array $arrData = null) : array
+    {
+        if( $arrData === null ) {
+            $arrData = &$this->arrData;
+        }
+
+        if( empty($arrData) ) {
+            return [];
+        }
+
+        foreach($arrData as &$item) {
+            $callback($item, $arrData);
+        }
+
+        return $arrData;
+    }
+
 
 
     /**
