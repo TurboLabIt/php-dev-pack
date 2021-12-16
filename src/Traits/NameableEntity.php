@@ -19,4 +19,10 @@ trait NameableEntity
         $this->name = trim($name);
         return $this;
     }
+    
+    
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
