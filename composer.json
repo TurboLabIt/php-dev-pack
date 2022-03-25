@@ -22,11 +22,19 @@
     "require": {
         "php": ">=8.0",
         "twig/twig": "^3.3",
-        "league/html-to-markdown": "^5.0"
+        "league/html-to-markdown": "^5.0",
+        "turbolabit/php-foreachable": "dev-main"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3",
         "symfony/browser-kit": "^5.3",
-        "symfony/framework-bundle": "^5.3"
+        "symfony/framework-bundle": "^5.3",
+        "phpunit/phpunit": "^9"
+    },
+    "repositories": {
+        "TurboLabIt/php-foreachable": {
+            "type": "git",
+            "url": "https://github.com/TurboLabIt/php-foreachable.git"
+        }
     }
 }

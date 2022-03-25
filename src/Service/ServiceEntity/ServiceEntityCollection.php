@@ -4,8 +4,8 @@ namespace TurboLabIt\TLIBaseBundle\Service\ServiceEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use TurboLabIt\Foreachable\Foreachable;
 use TurboLabIt\TLIBaseBundle\Exception\EntityLoadNotFoundException;
-use TurboLabIt\TLIBaseBundle\Traits\Foreachable;
 
 
 abstract class ServiceEntityCollection implements \Iterator, \Countable, \ArrayAccess
