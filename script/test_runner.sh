@@ -2,7 +2,7 @@
 SCRIPT_NAME=test_runner
 
 if [ ! -d "vendor" ]; then
-  composer install
+  XDEBUG_MODE=off composer install
 fi
 
 XDEBUG_MODE=off ${PHP_CLI} ./vendor/bin/phpunit tests
