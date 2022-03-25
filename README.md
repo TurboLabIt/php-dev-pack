@@ -1,15 +1,6 @@
 # TurboLab.it Base Bundle
 
-A collection of reusable Symfony components by TurboLab.it.
-
-## 🧪 Test it
-
-````bash
-git clone git@github.com:TurboLabIt/TLIBaseBundle.git
-cd TLIBaseBundle
-composer install
-phpunit
-````
+A collection of reusable Symfony components by TurboLab.it
 
 
 ## 📦 Install it with composer
@@ -260,3 +251,14 @@ $repoArticles->increaseViews(744);
 ````
 
 Done! You just increased the `views` field on the record `id = 744` of the table.
+
+
+## 🧪 Test it
+
+````bash
+git clone git@github.com:TurboLabIt/TLIBaseBundle.git
+cd TLIBaseBundle
+clear && bash script/test_runner.sh
+
+````
+
