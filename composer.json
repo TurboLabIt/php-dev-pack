@@ -35,10 +35,6 @@
         "TurboLabIt/php-foreachable": {
             "type": "git",
             "url": "https://github.com/TurboLabIt/php-foreachable.git"
-        },
-        "turbolabit/php-foreachable": {
-            "type": "git",
-            "url": "https://github.com/TurboLabIt/php-foreachable.git"
         }
     }
 }
