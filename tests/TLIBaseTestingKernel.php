@@ -8,12 +8,13 @@ use TurboLabIt\TLIBaseBundle\TLIBaseBundle;
 
 class TLIBaseTestingKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [
             new TLIBaseBundle()
         ];
     }
+
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
