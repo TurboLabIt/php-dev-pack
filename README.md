@@ -6,8 +6,9 @@ A collection of reusable Symfony components by TurboLab.it
 ## 📦 Install it with composer
 
 ````bash
-symfony composer config repositories.0 '{"type": "vcs", "url": "https://github.com/TurboLabIt/TLIBaseBundle.git", "no-api": true}'
+symfony composer config repositories.TurboLabIt/TLIBaseBundle git https://github.com/TurboLabIt/TLIBaseBundle.git
 symfony composer require turbolabit/tli-base-bundle:dev-master
+
 ````
 
 
