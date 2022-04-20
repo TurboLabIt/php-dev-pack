@@ -36,13 +36,12 @@ abstract class RepositoryBaseSingleKey extends RepositoryBase
     {
         $entity = $this->selectOrNull($id);
         if( !empty($entity) ) {
-
             return $entity;
         }
 
         $newEntity = new $this->_entityName();
 
-        if( !empty($id) ) {
+        if( !empty($id) && method_exists($entity, 'setId') ) {
 
             $newEntity->setId($id);
             $this->rsWholeTable[$id] = $newEntity;
@@ -55,7 +54,6 @@ abstract class RepositoryBaseSingleKey extends RepositoryBase
     public function selectOrNull(?int $id)
     {
         if( empty($id) || !array_key_exists($id, $this->rsWholeTable) ) {
-
             return null;
         }
 
