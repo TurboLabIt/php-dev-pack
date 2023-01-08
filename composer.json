@@ -24,7 +24,8 @@
         "twig/twig": "^3.3",
         "league/html-to-markdown": "^5.0",
         "turbolabit/php-foreachable": "dev-main",
-        "turbolabit/php-symfony-basecommand": "dev-main"
+        "turbolabit/php-encryptor": "dev-main",
+        "turbolabit/php-symfony-basecommand": "dev-main",
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3",
@@ -36,6 +37,10 @@
         "TurboLabIt/php-foreachable": {
             "type": "git",
             "url": "https://github.com/TurboLabIt/php-foreachable.git"
+        },
+        "TurboLabIt/php-encryptor": {
+            "type": "git",
+            "url": "https://github.com/TurboLabIt/php-encryptor.git"
         },
         "TurboLabIt/BaseCommand": {
             "type": "git",
