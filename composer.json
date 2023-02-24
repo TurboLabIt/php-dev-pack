@@ -25,7 +25,7 @@
         "league/html-to-markdown": "^5.0",
         "turbolabit/php-foreachable": "dev-main",
         "turbolabit/php-encryptor": "dev-main",
-        "turbolabit/php-symfony-basecommand": "dev-main",
+        "turbolabit/php-symfony-basecommand": "dev-main"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3",
