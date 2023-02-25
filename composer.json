@@ -32,15 +32,15 @@
         "phpunit/phpunit": "^9"
     },
     "repositories": {
-        "TurboLabIt/php-foreachable": {
+        "turbolabit/php-foreachable": {
             "type": "git",
             "url": "https://github.com/TurboLabIt/php-foreachable.git"
         },
-        "TurboLabIt/php-encryptor": {
+        "turbolabit/php-encryptor": {
             "type": "git",
             "url": "https://github.com/TurboLabIt/php-encryptor.git"
         },
-        "TurboLabIt/BaseCommand": {
+        "turbolabit/php-symfony-basecommand": {
             "type": "git",
             "url": "https://github.com/TurboLabIt/php-symfony-basecommand.git"
         }
