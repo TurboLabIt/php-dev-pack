@@ -1,5 +1,5 @@
 {
-    "name": "turbolabit/tli-base-bundle",
+    "name": "turbolabit/php-dev-pack",
     "description": "A collection of reusable Symfony components by TurboLab.it",
     "type": "symfony-bundle",
     "license": "MIT",
@@ -21,8 +21,6 @@
     },
     "require": {
         "php": ">=8.0",
-        "twig/twig": "^3.3",
-        "league/html-to-markdown": "^5.0",
         "turbolabit/php-foreachable": "dev-main",
         "turbolabit/php-encryptor": "dev-main",
         "turbolabit/php-symfony-basecommand": "dev-main"
